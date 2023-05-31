@@ -1,0 +1,86 @@
+---
+title: "Toyota - 前 200 詞頻字詞網路圖"
+output: flexdashboard::flex_dashboard
+runtime: shiny
+---
+
+```{r}
+pacman::p_load(flexdashboard, dplyr, visNetwork, tidyverse, reshape2, rjson)
+
+network_graph_W = read.csv("./toyota_correlation.csv", stringsAsFactors = F)
+network_graph_W$X = NULL
+names(network_graph_W) = c("item1", "item2", "value")
+
+
+# network_graph_W = read.csv("network_graph_W.csv", stringsAsFactors = F)
+# DTM = read.csv("network_graph_DTM.csv", stringsAsFactors = F)
+# parameters = fromJSON(file="network_graph.json")
+# 
+# word_freq = colSums(DTM) %>% as.data.frame()
+# names(word_freq) = "value"
+# word_freq = word_freq %>% tibble::rownames_to_column(var="id")
+# 
+# network_graph_W <- network_graph_W %>% remove_rownames %>% tibble::column_to_rownames(var=parameters$key_columns) %>% as.matrix()
+
+
+```
+
+Column {.sidebar data-width=250}
+--------------------------------------------
+
+```{r}
+h5("分別使用前 200 詞頻詞尋找個自最相近的前10名所構成的字詞關係網路")
+sliderInput("cor_range","詞彙關聯度範圍", min=0.5, max=1.0, value=c(0.95, 1.0), step=0.01)
+sliderInput("font_size","字體大小", min=1, max=100, value=44, step=1)
+renderText({
+  tmp = result()
+  paste0("本次繪圖所呈現的邊（edges）數量:", nrow(tmp$edges))
+})
+renderText({
+  tmp = result()
+  paste0("本次繪圖所呈現的節點（nodes）數量:", nrow(tmp$nodes))
+})
+result = reactive({
+  # input = list(cor_range = c(0.9,0.95))
+  edges = subset(network_graph_W, value >= input$cor_range[1] & value <= input$cor_range[2]) 
+  if(nrow(edges) == 0){
+      showNotification("當前參數篩選詞彙數量過少!無法繪製圖表!",duration = 5,type = "error")
+      return(NULL)
+    }
+  names(edges)[1:2] = c('from','to')
+  node_names = unique(c(edges$from, edges$to))
+  edges$id = paste0(edges$from, "-", edges$to)
+  nodes <- data.frame(id = node_names, label = node_names) %>% mutate(font.size = input$font_size)
+  
+  list(nodes = nodes, edges = edges)
+})
+
+filter_node_result = eventReactive(input$visual_network, {
+  tmp = result()
+  if (nrow(tmp$edges) >=1000){
+    showNotification("邊（edges）數量大於1000!請嘗試降低節點數量!",duration = 5,type = "error")
+    return(NULL)
+  }
+  return(tmp)
+  }, ignoreInit=T, ignoreNULL=F)
+h6("請注意，每次更新參數後請再手動點選開始繪圖！")
+actionButton("visual_network","開始繪圖")
+```
+    
+Column
+-------------------------------------
+### network
+```{r}
+renderVisNetwork({
+    tmp = filter_node_result()
+    if(is.null(tmp)) return(NULL)
+
+    showNotification("繪製圖形中...請稍等",duration = 3,type = "message")
+    visNetwork(tmp$nodes, tmp$edges, width = "100%") %>%
+
+        visNodes(shape="square") %>%
+        visEdges(color=list(opacity=0.6)) %>%
+        visOptions(manipulation = FALSE, highlightNearest = TRUE)
+    })
+```
+   

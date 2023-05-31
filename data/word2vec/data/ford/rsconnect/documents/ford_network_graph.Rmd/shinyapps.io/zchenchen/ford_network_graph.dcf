@@ -1,0 +1,13 @@
+name: ford_network_graph
+title: ford_network_graph
+username:
+account: zchenchen
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 9026294
+bundleId: 7172690
+url: https://zchenchen.shinyapps.io/ford_network_graph/
+when: 1683185773.61599
+lastSyncTime: 1683185773.61601
+asMultiple: FALSE
+asStatic: FALSE
