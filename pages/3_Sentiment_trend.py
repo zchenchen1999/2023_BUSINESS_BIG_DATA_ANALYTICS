@@ -4,6 +4,6 @@ import streamlit as st
 st.set_page_config(layout="wide")
 
 # title
-st.title("詞頻分析/文字雲")
+st.title("品牌情緒趨勢圖")
 
-# 負責人：佑陞
+# 負責人：誠哲
