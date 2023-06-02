@@ -7,3 +7,4 @@ st.set_page_config(layout="wide")
 st.title("品牌聲量趨勢圖")
 
 # 負責人：伊廷
+st.write("測試文字1")
