@@ -7,3 +7,4 @@ st.set_page_config(layout="wide")
 st.title("品牌情緒趨勢圖")
 
 # 負責人：誠哲
+st.write("這是一段測試文字")
