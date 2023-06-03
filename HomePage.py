@@ -6,4 +6,4 @@ st.set_page_config(page_title="裕日有望客分析系統", layout="wide")
 # title
 st.title("裕日有望客分析系統")
 a = st.secrets["gcp_service_account"]
-st.write(a)
+st.write(type(a))
