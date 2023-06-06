@@ -5,7 +5,6 @@ import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-# 輸入資料
 
 # 預設顯示 wide mode
 st.set_page_config(layout="wide")
@@ -36,6 +35,7 @@ else :
     '外部資料變數',
     ('當月總文章數', '前一月總文章數', '前二月總文章數', '前三月總文章數', '前四月總文章數', '當月文章正向比例', '當月文章負向比例', '前一月文章正向比例', '前一月文章負向比例', '前二月文章正向比例', '前二月文章負向比例', '前三月文章正向比例', '前三月文章負向比例', '前四月文章正向比例', '前四月文章負向比例')
     )
+
 
 # app: 給出對應資料  
 if optionName == 'Nissan':
