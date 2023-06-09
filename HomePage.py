@@ -11,7 +11,7 @@ st.set_page_config(page_title="裕日有望客分析系統", layout="wide")
 st.title("裕日有望客分析系統")
 
 conn = st.experimental_connection('gcs', type=FilesConnection)
-df = conn.read("big-data-class-2023/pttData.csv", input_format="csv", ttl=600)
+df = conn.read("big-data-class-2023/all_zh_data.csv", input_format="csv", ttl=600)
 
 st.dataframe(df)
 # SECRET = st.secrets["gcp_service_account"]
