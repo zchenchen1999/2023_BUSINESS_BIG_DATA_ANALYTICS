@@ -2,7 +2,7 @@ networkx==2.8.6
 numpy==1.23.3
 pandas==1.4.4
 pyvis==0.3.2
-streamlit==1.22.0
+streamlit==1.23.0
 plotly==5.14.1
 st-annotated-text==4.0.0
 gcsfs==2023.5.0
