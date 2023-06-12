@@ -23,17 +23,18 @@ optionFrequency = st.sidebar.selectbox(
     '資料時間頻率',
     ('週頻', '月頻'))
 
-if optionFrequency == '週頻':
-  optionCor = st.sidebar.multiselect(
-      '外部資料變數（可多選）',
-      ('當週總文章數', '前一週總文章數', '前二週總文章數', '前三週總文章數', '當週文章正向比例', '當週文章負向比例', '前一週文章正向比例', '前一週文章負向比例', '前二週文章正向比例', '前二週文章負向比例', '前三週文章正向比例', '前三週文章負向比例')
-      )
-else :
+if optionFrequency == '月頻':
   optionCor = st.sidebar.multiselect(
     '外部資料變數',
     ('當月總文章數', '前一月總文章數', '前二月總文章數', '前三月總文章數', '前四月總文章數', '當月文章正向比例', '當月文章負向比例', '前一月文章正向比例', '前一月文章負向比例', '前二月文章正向比例', '前二月文章負向比例', '前三月文章正向比例', '前三月文章負向比例', '前四月文章正向比例', '前四月文章負向比例')
     )
 
+elif optionFrequency == '週頻':
+  optionCor = st.sidebar.multiselect(
+      '外部資料變數（可多選）',
+      ('當週總文章數', '前一週總文章數', '前二週總文章數', '前三週總文章數', '當週文章正向比例', '當週文章負向比例', '前一週文章正向比例', '前一週文章負向比例', '前二週文章正向比例', '前二週文章負向比例', '前三週文章正向比例', '前三週文章負向比例')
+      )
+  
 
 # app: 給出對應資料  
 if optionName == 'Nissan':
@@ -52,23 +53,19 @@ if optionName == 'Sentra':
   elif optionFrequency == '週頻':
     data = pd.read_excel('../data/correlation/週頻sentra內外部資料.xlsx')
 
+
+# sidebar condition
 if optionFrequency == '月頻':
   date = '當期月份'
+  date_int = '當期月份_int'
+  default_value = 202301
+
 elif optionFrequency == '週頻':
   date = '當期週數'
-
-if optionFrequency == '月頻':
-  date_int = '當期月份_int'
-elif optionFrequency == '週頻':
   date_int = '當期週數_int'
-
+  default_value = 202305
 
 # app: sidebar
-if optionFrequency == '月頻':
-  default_value = 202301
-else:
-    default_value = 202305
-
 optionStartTime = st.sidebar.selectbox(
     '起始時間',
     data[[date_int]])
@@ -104,8 +101,5 @@ fig.update_xaxes(title_text=date)
 fig.update_yaxes(title_text=optionVariable, secondary_y=False)
 fig.update_layout(xaxis_tickangle=45)
 
-
-
 # 顯示圖表
 st.plotly_chart(fig, use_container_width=True)
-# st.altair_chart(fig, use_container_width=True)
