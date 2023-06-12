@@ -33,15 +33,21 @@ ford = load_data("big-data-class-2023/ford_ptt_data.csv")
 honda = load_data("big-data-class-2023/honda_ptt_data.csv")
 mazda = load_data("big-data-class-2023/mazda_ptt_data.csv")
 
-# @st.cache_data
-# def show_ptt_data():
-#     st.header("外部原始資料")
-#     car_brand_tabs = st.tabs(car_brand)
-#     for p in range(len(car_brand_tabs)):
-#         try:
-#             car_brand_tabs[p].dataframe(data=load_data(f"big-data-class-2023/{car_brand[p]}_ptt_data.csv"), use_container_width=True)
-#         except:
-#             print("本機")
+@st.cache_data
+def show_ptt_data():
+    st.header("外部原始資料")
+    # car_brand_tabs = st.tabs(car_brand)
+    # for p in range(len(car_brand_tabs)):
+    #     try:
+    #         car_brand_tabs[p].dataframe(data=load_data(f"big-data-class-2023/{car_brand[p]}_ptt_data.csv"), use_container_width=True)
+    #     except:
+    #         print("本機")
+    nissan_tab, toyota_tab, ford_tab, honda_tab, mazda_tab = st.tabs(car_brand)
+    nissan_tab.dataframe(nissan)
+    toyota_tab.dataframe(toyota)
+    ford_tab.dataframe(ford)
+    honda_tab.dataframe(honda)
+    mazda_tab.dataframe(mazda)
 
 
 
@@ -51,10 +57,4 @@ st.header("內部資料")
 internal = load_data("big-data-class-2023/nissan_internal.csv")
 st.dataframe(internal)
 # 顯示外部資料
-# show_ptt_data()
-nissan_tab, toyota_tab, ford_tab, honda_tab, mazda_tab = st.tabs(car_brand)
-nissan_tab.dataframe(nissan)
-toyota_tab.dataframe(toyota)
-ford_tab.dataframe(ford)
-honda_tab.dataframe(honda)
-mazda_tab.dataframe(mazda)
+show_ptt_data()
