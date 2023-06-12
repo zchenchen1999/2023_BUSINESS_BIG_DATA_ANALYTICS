@@ -2,6 +2,8 @@ import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
 from pyvis.network import Network
+from st_files_connection import FilesConnection
+
 
 # 負責人：畇彤
 
@@ -30,10 +32,23 @@ st.sidebar.write('關聯度:', corr_values)
 
 
 # ---------------------------------------------------------- Load Data ----------------------------------------------------------#
-# 根據篩選的條件input data
-df = pd.read_csv('../data/word2vec/'+ selected_brand +'_correlation.csv')
+
+
+conn = st.experimental_connection('gcs', type=FilesConnection)
+# df = conn.read('big-data-class-2023/word2vec/' + selected_brand + '_correlation.csv', input_format='csv', ttl=600)
+
+@st.cache_data(persist=True)  # 👈 Add the caching decorator
+def load_data(url):
+    csv_data = conn.read(url, input_format="csv", ttl=None)
+    return csv_data
+
+df = load_data(f"big-data-class-2023/word2vec/{selected_brand}_correlation.csv")
+
+
+
 df = df.drop('Unnamed: 0', axis = 1)
 
+# 根據條件篩選 data
 df = df[(df['correlation'] > corr_values[0]) & (df['correlation'] < corr_values[1])]
 df = df.reset_index(drop=True)
 # 移除 corr 為 1 的資料
