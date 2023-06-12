@@ -13,7 +13,7 @@ st.set_page_config(layout="wide")
 st.title("主題模型")
 
 # st.sidebar.header('')
-path = 'nissan_lda.html'
+path = './html_files/nissan_lda.html'
 with open(path, 'r') as f :
     HtmlFile = f.read()
 st.header("測試")
