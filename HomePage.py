@@ -17,7 +17,7 @@ car_brand = ["nissan", "toyota", "ford", "honda", "mazda"]
 def load_data(url):
     try:
         conn = st.experimental_connection('gcs', type=FilesConnection)
-        csv_data = conn.read(url, input_format="csv", ttl=600)
+        csv_data = conn.read(url, input_format="csv", ttl=1000)
         return csv_data
     # 本機讀取自己的路徑
     except:
@@ -33,8 +33,6 @@ def load_ptt_data(string):
         ptt_df_list.append(load_data("big-data-class-2023/ford_ptt_data.csv"))
         ptt_df_list.append(load_data("big-data-class-2023/honda_ptt_data.csv"))
         ptt_df_list.append(load_data("big-data-class-2023/mazda_ptt_data.csv"))
-        # conn = st.experimental_connection('gcs', type=FilesConnection)
-        # csv_data = conn.read(url, input_format="csv", ttl=600)
         return ptt_df_list
     # 本機讀取自己的路徑
     except:
