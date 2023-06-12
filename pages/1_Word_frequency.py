@@ -136,7 +136,7 @@ if select_voc == '未選擇':
     freq_dict = freq_dict['freq']
 
     # 文字雲
-    FontPath = 'SourceHanSansTW-Regular.otf' # 設定字型
+    FontPath = 'data/font/SourceHanSansTW-Regular.otf' # 設定字型
     wordcloud = WordCloud(background_color='white',width=800, height = 400, font_path=FontPath, max_words=200)
     wordcloud.generate_from_frequencies(freq_dict)
     plt.figure(figsize = (14,7))
