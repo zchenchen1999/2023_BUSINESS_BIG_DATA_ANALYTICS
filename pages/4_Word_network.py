@@ -56,7 +56,7 @@ df = df[df['item1'] != df['item2']]
 
 # -------------------------------------------------------- Pyvis ----------------------------------------------------------#
 Cor_Graph = {}
-correlation_net = Network(height='450px',width="100%")
+correlation_net = Network(height='650px',width="100%")
 nid=1
 
 
@@ -89,4 +89,4 @@ except:
     HtmlFile = open(f'{path}/pyvis_graph.html', 'r', encoding='utf-8')
 
 # Load HTML file in HTML component for display on Streamlit page
-components.html(HtmlFile.read(), height=600, scrolling=True)
+components.html(HtmlFile.read(), height=660, scrolling=True)
