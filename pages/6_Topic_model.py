@@ -13,8 +13,8 @@ st.set_page_config(layout="wide")
 st.title("主題模型")
 
 # st.sidebar.header('')
-
-HtmlFile = open('html_files/nissan_lda.html', 'r', encoding='utf-8')
-
-# Load HTML file in HTML component for display on Streamlit page
+path = 'html_files/nissan_lda.html'
+with open(path, 'r') as f :
+    HtmlFile = f.read()
+    
 components.html(HtmlFile.read(), height=660, scrolling=True)
