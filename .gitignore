@@ -1,5 +1,4 @@
 .streamlit/secrets.toml
 *.csv
-data/rawData
-data/sentiment
 dict
+pages/lib
