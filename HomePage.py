@@ -22,11 +22,11 @@ def load_data(url):
     csv_data = conn.read(url, input_format="csv", ttl=None)
     return csv_data
     
-nissan = load_data("big-data-class-2023/nissan_ptt_data.csv")
-toyota = load_data("big-data-class-2023/toyota_ptt_data.csv")
-ford = load_data("big-data-class-2023/ford_ptt_data.csv")
-honda = load_data("big-data-class-2023/honda_ptt_data.csv")
-mazda = load_data("big-data-class-2023/mazda_ptt_data.csv")
+nissan = load_data("big-data-class-2023/rawData/nissan_ptt_data.csv")
+toyota = load_data("big-data-class-2023/rawData/toyota_ptt_data.csv")
+ford = load_data("big-data-class-2023/rawData/ford_ptt_data.csv")
+honda = load_data("big-data-class-2023/rawData/honda_ptt_data.csv")
+mazda = load_data("big-data-class-2023/rawData/mazda_ptt_data.csv")
 
 @st.cache_data(persist=True)
 def show_ptt_data():
@@ -43,7 +43,7 @@ def show_ptt_data():
 # 內部資料
 st.header("內部資料")
 # 讀取內部資料
-internal = load_data("big-data-class-2023/nissan_internal.csv")
+internal = load_data("big-data-class-2023/rawData/nissan_internal.csv")
 st.dataframe(internal)
 # 顯示外部資料
 show_ptt_data()
