@@ -19,13 +19,8 @@ conn = st.experimental_connection('gcs', type=FilesConnection)
 
 @st.cache_data(persist=True)  # 👈 Add the caching decorator
 def load_data(url):
-    # try:
     csv_data = conn.read(url, input_format="csv", ttl=None)
     return csv_data
-    # 本機讀取自己的路徑
-    # except:
-    #     print("本機")
-    #     return None
     
 nissan = load_data("big-data-class-2023/nissan_ptt_data.csv")
 toyota = load_data("big-data-class-2023/toyota_ptt_data.csv")
@@ -36,12 +31,6 @@ mazda = load_data("big-data-class-2023/mazda_ptt_data.csv")
 @st.cache_data(persist=True)
 def show_ptt_data():
     st.header("外部原始資料")
-    # car_brand_tabs = st.tabs(car_brand)
-    # for p in range(len(car_brand_tabs)):
-    #     try:
-    #         car_brand_tabs[p].dataframe(data=load_data(f"big-data-class-2023/{car_brand[p]}_ptt_data.csv"), use_container_width=True)
-    #     except:
-    #         print("本機")
     nissan_tab, toyota_tab, ford_tab, honda_tab, mazda_tab = st.tabs(car_brand)
     nissan_tab.dataframe(nissan)
     toyota_tab.dataframe(toyota)
