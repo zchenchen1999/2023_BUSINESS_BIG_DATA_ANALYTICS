@@ -12,6 +12,7 @@ import plotly.express as px
 from wordcloud import WordCloud
 from collections import Counter
 from ast import literal_eval
+from st_files_connection import FilesConnection
 
 # 預設顯示 wide mode
 st.set_page_config(layout="wide")
@@ -29,25 +30,30 @@ url3 = 'toyota_clean_data.csv'
 url4 = 'honda_clean_data.csv'
 url5 = 'mazda_clean_data.csv'
 
-# 利用catche讀取資料
-@st.cache_data
-def load_df(url1, url2, url3, url4, url5):
-    df1 = pd.read_csv(url1)
-    df2 = pd.read_csv(url2)
-    df3 = pd.read_csv(url3)
-    df4 = pd.read_csv(url4)
-    df5 = pd.read_csv(url5)
 
-    df1['brand'] = "Nissan"
-    df2['brand'] = "Ford"
-    df3['brand'] = "Toyota"
-    df4['brand'] = "Honda"
-    df5['brand'] = "Mazda"
+conn = st.experimental_connection('gcs', type=FilesConnection)
 
-    merged_df = pd.concat([df1, df2, df3, df4, df5])
-    return merged_df
+@st.cache_data(persist=True)  # 👈 Add the caching decorator
+def load_data(url):
+    csv_data = conn.read(url, input_format="csv", ttl=None)
+    return csv_data
 
-df_interact = load_df(url1, url2, url3, url4, url5)
+nissan = load_data("big-data-class-2023/nissan_clean_data.csv")
+toyota = load_data("big-data-class-2023/toyota_clean_data.csv")
+ford = load_data("big-data-class-2023/ford_clean_data.csv")
+honda = load_data("big-data-class-2023/honda_clean_data.csv")
+mazda = load_data("big-data-class-2023/mazda_clean_data.csv")
+
+nissan['brand'] = "Nissan"
+toyota['brand'] = "Ford"
+ford['brand'] = "Toyota"
+honda['brand'] = "Honda"
+mazda['brand'] = "Mazda"
+
+df_interact = pd.concat([nissan, toyota, ford, honda, mazda])
+
+
+# df_interact = load_df(url1, url2, url3, url4, url5)
 
 # 轉換日期欄位為 datetime
 df_interact['artDate'] = pd.to_datetime(df_interact['artDate'],format='%Y-%m-%d')
