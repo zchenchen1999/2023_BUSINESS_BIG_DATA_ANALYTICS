@@ -14,8 +14,7 @@ st.title("主題模型")
 
 # st.sidebar.header('')
 
-path = './html_files'
-HtmlFile = open(f'{path}/nissan_lda.html', 'r', encoding='utf-8')
+HtmlFile = open(f'html_files/nissan_lda.html', 'r', encoding='utf-8')
 
 # Load HTML file in HTML component for display on Streamlit page
 components.html(HtmlFile.read(), height=660, scrolling=True)
