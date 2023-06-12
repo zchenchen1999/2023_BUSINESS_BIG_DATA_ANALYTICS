@@ -1,7 +1,6 @@
 # 負責人：祐陞
 import streamlit as st
 import streamlit.components.v1 as components
-from streamlit_plotly_events import plotly_events
 import pandas as pd
 import numpy as np
 import networkx as nx
