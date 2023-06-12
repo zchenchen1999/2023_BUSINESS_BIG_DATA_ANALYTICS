@@ -17,4 +17,4 @@ path = './html_files/nissan_lda.html'
 with open(path, 'r') as f :
     HtmlFile = f.read()
 st.header("測試")
-components.html(HtmlFile.read(), height=660, scrolling=True)
+components.html(HtmlFile, height=660, scrolling=True)
