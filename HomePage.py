@@ -11,13 +11,13 @@ st.set_page_config(page_title="裕日有望客分析系統", layout="wide")
 st.title("裕日有望客分析系統")
 
 # 雲端連線方式
-# try:
-conn = st.experimental_connection('gcs', type=FilesConnection)
-df = conn.read("big-data-class-2023/ford_clean_data.csv", input_format="csv", ttl=600)
+try:
+    conn = st.experimental_connection('gcs', type=FilesConnection)
+    df = conn.read("big-data-class-2023/ford_clean_data.csv", input_format="csv", ttl=600)
 # 本機讀取自己的路徑
-# except:
-#     print("本機")
-#     pass
+except:
+    print("本機")
+    pass
 
 st.dataframe(df)
 # SECRET = st.secrets["gcp_service_account"]
