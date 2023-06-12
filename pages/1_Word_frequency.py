@@ -58,7 +58,7 @@ df_interact = pd.concat([nissan, toyota, ford, honda, mazda])
 df_interact['artDate'] = pd.to_datetime(df_interact['artDate'],format='%Y-%m-%d')
 
 # Set header title
-st.title('時間區間品牌網路詞頻計算')
+# st.title('時間區間品牌網路詞頻計算')
 st.markdown('文字雲')
 
 # Define list of selection options and sort alphabetically
