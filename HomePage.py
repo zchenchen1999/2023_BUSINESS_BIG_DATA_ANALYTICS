@@ -24,24 +24,24 @@ def load_data(url):
         print("本機")
         return None
 
-@st.cache_data
-def load_ptt_data(string):
-    try:
-        ptt_df_list = []
-        ptt_df_list.append(load_data("big-data-class-2023/nissan_ptt_data.csv"))
-        ptt_df_list.append(load_data("big-data-class-2023/toyota_ptt_data.csv"))
-        ptt_df_list.append(load_data("big-data-class-2023/ford_ptt_data.csv"))
-        ptt_df_list.append(load_data("big-data-class-2023/honda_ptt_data.csv"))
-        ptt_df_list.append(load_data("big-data-class-2023/mazda_ptt_data.csv"))
-        return ptt_df_list
-    # 本機讀取自己的路徑
-    except:
-        print("本機")
-        return None
+# @st.cache_data
+# def load_ptt_data(string):
+#     try:
+#         ptt_df_list = []
+#         ptt_df_list.append(load_data("big-data-class-2023/nissan_ptt_data.csv"))
+#         ptt_df_list.append(load_data("big-data-class-2023/toyota_ptt_data.csv"))
+#         ptt_df_list.append(load_data("big-data-class-2023/ford_ptt_data.csv"))
+#         ptt_df_list.append(load_data("big-data-class-2023/honda_ptt_data.csv"))
+#         ptt_df_list.append(load_data("big-data-class-2023/mazda_ptt_data.csv"))
+#         return ptt_df_list
+#     # 本機讀取自己的路徑
+#     except:
+#         print("本機")
+#         return None
 
 
 internal = load_data("big-data-class-2023/nissan_internal.csv")
-ptt_df_list = load_ptt_data("ptt")
+# ptt_df_list = load_ptt_data("ptt")
 # ptt_df_list.append(load_data("big-data-class-2023/nissan_ptt_data.csv"))
 # ptt_df_list.append(load_data("big-data-class-2023/toyota_ptt_data.csv"))
 # ptt_df_list.append(load_data("big-data-class-2023/ford_ptt_data.csv"))
@@ -53,10 +53,10 @@ st.header("內部資料")
 st.dataframe(internal)
 
 # 外部 ptt 資料
-st.header("外部原始資料")
-car_brand_tabs = st.tabs(car_brand)
-for p in range(len(ptt_df_list)):
-    car_brand_tabs[p].dataframe(data=ptt_df_list[p], use_container_width=True)
+# st.header("外部原始資料")
+# car_brand_tabs = st.tabs(car_brand)
+# for p in range(len(ptt_df_list)):
+#     car_brand_tabs[p].dataframe(data=ptt_df_list[p], use_container_width=True)
 
 
 # SECRET = st.secrets["gcp_service_account"]
