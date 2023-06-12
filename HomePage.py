@@ -24,13 +24,31 @@ def load_data(url):
         print("本機")
         return None
 
+@st.cache_data
+def load_ptt_data(string):
+    try:
+        ptt_df_list = []
+        ptt_df_list.append(load_data("big-data-class-2023/nissan_ptt_data.csv"))
+        ptt_df_list.append(load_data("big-data-class-2023/toyota_ptt_data.csv"))
+        ptt_df_list.append(load_data("big-data-class-2023/ford_ptt_data.csv"))
+        ptt_df_list.append(load_data("big-data-class-2023/honda_ptt_data.csv"))
+        ptt_df_list.append(load_data("big-data-class-2023/mazda_ptt_data.csv"))
+        # conn = st.experimental_connection('gcs', type=FilesConnection)
+        # csv_data = conn.read(url, input_format="csv", ttl=600)
+        return ptt_df_list
+    # 本機讀取自己的路徑
+    except:
+        print("本機")
+        return None
+
+
 internal = load_data("big-data-class-2023/nissan_internal.csv")
-ptt_df_list = []
-ptt_df_list.append(load_data("big-data-class-2023/nissan_ptt_data.csv"))
-ptt_df_list.append(load_data("big-data-class-2023/toyota_ptt_data.csv"))
-ptt_df_list.append(load_data("big-data-class-2023/ford_ptt_data.csv"))
-ptt_df_list.append(load_data("big-data-class-2023/honda_ptt_data.csv"))
-ptt_df_list.append(load_data("big-data-class-2023/mazda_ptt_data.csv"))
+ptt_df_list = load_ptt_data("ptt")
+# ptt_df_list.append(load_data("big-data-class-2023/nissan_ptt_data.csv"))
+# ptt_df_list.append(load_data("big-data-class-2023/toyota_ptt_data.csv"))
+# ptt_df_list.append(load_data("big-data-class-2023/ford_ptt_data.csv"))
+# ptt_df_list.append(load_data("big-data-class-2023/honda_ptt_data.csv"))
+# ptt_df_list.append(load_data("big-data-class-2023/mazda_ptt_data.csv"))
 
 # 內部資料
 st.header("內部資料")
