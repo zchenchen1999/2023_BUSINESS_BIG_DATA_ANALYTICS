@@ -16,5 +16,4 @@ st.title("主題模型")
 path = './html_files/nissan_lda.html'
 with open(path, 'r') as f :
     HtmlFile = f.read()
-st.header("測試")
 components.html(HtmlFile, height=900, scrolling=True)
