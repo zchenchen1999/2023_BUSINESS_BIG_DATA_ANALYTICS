@@ -16,10 +16,10 @@ car_brand = ["nissan", "toyota", "ford", "honda", "mazda"]
 #              若輸入參數沒看過，則會執行 def
 #              不只有讀取 data 可使用， UI 也可以（如果覺得每次畫圖話很久，可以放在 cache 中的 function 執行）=> 輸入參數沒變會直接顯示之前畫好的圖
 @st.cache_data  # 👈 Add the caching decorator
-async def load_data(url):
+def load_data(url):
     try:
         conn = st.experimental_connection('gcs', type=FilesConnection)
-        csv_data = await conn.read(url, input_format="csv", ttl=1000)
+        csv_data = conn.read(url, input_format="csv", ttl=1000)
         return csv_data
     # 本機讀取自己的路徑
     except:
