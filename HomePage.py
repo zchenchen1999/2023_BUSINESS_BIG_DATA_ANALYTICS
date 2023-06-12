@@ -16,7 +16,7 @@ try:
     df = conn.read("big-data-class-2023/all_zh_data.csv", input_format="csv", ttl=600)
 # 本機讀取自己的路徑
 except:
-    # df = pd.read_csv("<自己電腦的路徑>")
+    print("本機")
     pass
 
 st.dataframe(df)
