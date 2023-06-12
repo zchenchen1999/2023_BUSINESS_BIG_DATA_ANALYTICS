@@ -18,7 +18,7 @@ try:
     conn = st.experimental_connection('gcs', type=FilesConnection)
     internal = conn.read("big-data-class-2023/nissan_internal.csv", input_format="csv", ttl=600)
     for b in car_brand:
-        ptt_df_list.addend(conn.read(f"big-data-class-2023/{car_brand[b]}_ptt_data.csv", input_format="csv", ttl=600))
+        ptt_df_list.addend(conn.read(f"big-data-class-2023/{b}_ptt_data.csv", input_format="csv", ttl=600))
 # 本機讀取自己的路徑
 except:
     print("本機")
@@ -32,7 +32,7 @@ st.dataframe(internal)
 # 外部 ptt 資料
 st.header("外部原始資料")
 car_brand_tabs = st.tabs(car_brand)
-for p in len(ptt_df_list):
+for p in range(len(ptt_df_list)):
     car_brand_tabs[p].dataframe(ptt_df_list[p])
 
 
