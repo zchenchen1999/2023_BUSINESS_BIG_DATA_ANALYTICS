@@ -12,9 +12,9 @@ st.set_page_config(layout="wide")
 # title
 st.title("主題模型")
 
-# st.sidebar.header('')
-path = '/tmp/nissan_lda.html'
-with open(path, 'r') as f :
-    HtmlFile = f.read()
+# # st.sidebar.header('')
+# path = '/tmp/nissan_lda.html'
+# with open(path, 'r') as f :
+#     HtmlFile = f.read()
 
-components.html(HtmlFile.read(), height=660, scrolling=True)
+# components.html(HtmlFile.read(), height=660, scrolling=True)
