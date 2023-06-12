@@ -14,6 +14,7 @@ st.title("裕日有望客分析系統")
 try:
     conn = st.experimental_connection('gcs', type=FilesConnection)
     df = conn.read("big-data-class-2023/ford_clean_data.csv", input_format="csv", ttl=600)
+    df2 = conn.read("big-data-class-2023/honda_clean_data.csv", input_format="csv", ttl=600)
 # 本機讀取自己的路徑
 except:
     print("本機")
