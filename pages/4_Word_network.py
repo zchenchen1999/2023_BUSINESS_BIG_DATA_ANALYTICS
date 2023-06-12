@@ -19,7 +19,7 @@ st.title("廠牌字詞網路圖")
 st.sidebar.header('參數調整')
 
 ## 品牌選擇
-brand_list = ['Nissan', 'Toyota', 'Ford', 'Honda', 'Mazda']
+brand_list = ['nissan', 'toyota', 'ford', 'honda', 'mazda']
 # brand_list.sort()
 
 selected_brand = st.sidebar.selectbox('選擇品牌', brand_list)
