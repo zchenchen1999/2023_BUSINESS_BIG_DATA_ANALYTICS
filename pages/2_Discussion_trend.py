@@ -14,9 +14,32 @@ import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 import plotly.express as px
 
+# 雲端連線
+try: 
+    conn = st.experimetal_connection('gcs', type=FilesConnection)
+    ford = conn.read("big-data-class-2023/ford_clean_data.csv", input_format="csv", ttl=600)
+    honda = conn.read("big-data-class-2023/honda_clean_data.csv", input_format="csv", ttl=600)
+    mazda = conn.read("big-data-class-2023/mazda_clean_data.csv", input_format="csv", ttl=600)
+    nissan = conn.read("big-data-class-2023/nissan_clean_data.csv", input_format="csv", ttl=600)
+    toyota = conn.read("big-data-class-2023/toyota_clean_data.csv", input_format="csv", ttl=600)
+# 本機讀取
+except:
+    ford = pd.read_csv('data/ford_clean_data.csv')
+    honda = pd.read_csv('data/honda_clean_data.csv')
+    mazda = pd.read_csv('data/mazda_clean_data.csv')
+    nissan = pd.read_csv('data/nissan_clean_data.csv')
+    toyota = pd.read_csv('data/toyota_clean_data.csv')
+    pass
 
-# Read dataset (CSV)
-df_interact = pd.read_csv('data/pttData.csv')
+# 新增品牌欄位
+ford = ford.assign(Brand='Ford')
+honda = honda.assign(Brand='Honda')
+mazda = mazda.assign(Brand='Mazda')
+nissan = nissan.assign(Brand='Nissan')
+toyota = toyota.assign(Brand='Toyota')
+
+# 資料框合併
+df_interact = pd.concat([ford, honda, mazda, nissan, toyota], ignore_index=True)
 
 # 轉換日期欄位為 datetime
 df_interact['artDate'] = pd.to_datetime(df_interact['artDate'],format='%Y-%m-%d')
@@ -77,3 +100,5 @@ fig.update_layout(
     title="品牌網路聲量趨勢"
 )
 st.plotly_chart(fig)
+
+st.dataframe(df_select)
