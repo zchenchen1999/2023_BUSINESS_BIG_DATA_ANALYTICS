@@ -27,12 +27,12 @@ def load_data(url):
         return None
 
 @st.cache_data
-async def show_ptt_data():
+def show_ptt_data():
     st.header("外部原始資料")
     car_brand_tabs = st.tabs(car_brand)
     for p in range(len(car_brand_tabs)):
         try:
-            await car_brand_tabs[p].dataframe(data=load_data(f"big-data-class-2023/{car_brand[p]}_ptt_data.csv"), use_container_width=True)
+            car_brand_tabs[p].dataframe(data=load_data(f"big-data-class-2023/{car_brand[p]}_ptt_data.csv"), use_container_width=True)
         except:
             print("本機")
 
