@@ -6,12 +6,7 @@ st.set_page_config(layout="wide")
 # 負責人：伊廷
 
 import streamlit as st
-import streamlit.components.v1 as components
 import pandas as pd
-import networkx as nx
-import datetime
-import matplotlib.pyplot as plt
-import matplotlib.font_manager as fm
 import plotly.express as px
 
 # 雲端連線
