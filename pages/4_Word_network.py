@@ -42,7 +42,7 @@ def load_data(url):
     csv_data = conn.read(url, input_format="csv", ttl=None)
     return csv_data
 
-df = load_data(f"big-data-class-2023/word2vec/{selected_brand}_correlation.csv")
+df = load_data(f"big-data-class-2023/word2vec/" + selected_brand + "_correlation.csv")
 
 
 
