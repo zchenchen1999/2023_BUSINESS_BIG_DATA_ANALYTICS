@@ -17,15 +17,15 @@ car_brand = ["nissan", "toyota", "ford", "honda", "mazda"]
 #              不只有讀取 data 可使用， UI 也可以（如果覺得每次畫圖話很久，可以放在 cache 中的 function 執行）=> 輸入參數沒變會直接顯示之前畫好的圖
 conn = st.experimental_connection('gcs', type=FilesConnection)
 
-# @st.cache_data()  # 👈 Add the caching decorator
+@st.cache_data(persist=True)  # 👈 Add the caching decorator
 def load_data(url):
-    try:
-        csv_data = conn.read(url, input_format="csv", ttl=None)
-        return csv_data
+    # try:
+    csv_data = conn.read(url, input_format="csv", ttl=None)
+    return csv_data
     # 本機讀取自己的路徑
-    except:
-        print("本機")
-        return None
+    # except:
+    #     print("本機")
+    #     return None
     
 nissan = load_data("big-data-class-2023/nissan_ptt_data.csv")
 toyota = load_data("big-data-class-2023/toyota_ptt_data.csv")
@@ -51,10 +51,7 @@ def show_ptt_data():
 
 
 
-# 內部資料
-st.header("內部資料")
-# 讀取內部資料
-internal = load_data("big-data-class-2023/nissan_internal.csv")
-st.dataframe(internal)
-# 顯示外部資料
-show_ptt_data()
+# sheet_url = st.secrets["private_gsheets_url"]
+# df = run_query(f'SELECT * FROM "{sheet_url}"')
+
+# st.dataframe(df)
