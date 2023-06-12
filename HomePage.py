@@ -10,17 +10,32 @@ st.set_page_config(page_title="裕日有望客分析系統", layout="wide")
 # title
 st.title("裕日有望客分析系統")
 
+car_brand = ["nissan", "toyota", "ford", "honda", "mazda"]
+ptt_df_list = []
+
 # 雲端連線方式
 try:
     conn = st.experimental_connection('gcs', type=FilesConnection)
-    df = conn.read("big-data-class-2023/ford_clean_data.csv", input_format="csv", ttl=600)
-    df2 = conn.read("big-data-class-2023/honda_clean_data.csv", input_format="csv", ttl=600)
+    internal = conn.read("big-data-class-2023/nissan_internal.csv", input_format="csv", ttl=600)
+    for b in car_brand:
+        ptt_df_list.addend(conn.read(f"big-data-class-2023/{car_brand[b]}_ptt_data.csv", input_format="csv", ttl=600))
 # 本機讀取自己的路徑
 except:
     print("本機")
     pass
 
-st.dataframe(df)
+# 內部資料
+st.header("內部資料")
+st.dataframe(internal)
+
+
+# 外部 ptt 資料
+st.header("外部原始資料")
+car_brand_tabs = st.tabs(car_brand)
+for p in len(ptt_df_list):
+    car_brand_tabs[p].dataframe(ptt_df_list[p])
+
+
 # SECRET = st.secrets["gcp_service_account"]
 
 # # 取得 SECRET 範例： SECRET.get("type")
