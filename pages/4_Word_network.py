@@ -26,7 +26,7 @@ selected_brand = st.sidebar.selectbox('選擇品牌', brand_list)
 
 
 # 關聯度設定
-corr_values = st.sidebar.slider('選擇關聯度區間', 0.0, 1.0, (0.75, 0.9))
+corr_values = st.sidebar.slider('選擇關聯度區間', 0.0, 1.0, (0.9, 1.0))
 st.sidebar.write('關聯度:', corr_values)
 
 
