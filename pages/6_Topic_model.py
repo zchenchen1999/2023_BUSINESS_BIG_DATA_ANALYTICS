@@ -12,16 +12,10 @@ st.set_page_config(layout="wide")
 # title
 st.title("主題模型")
 
+# st.sidebar.header('')
 
-st.sidebar.header('')
+path = '/html_files'
+HtmlFile = open(f'{path}/nissan_lda.html', 'r', encoding='utf-8')
 
-## 品牌選擇
-# brand_list = ['nissan', 'toyota', 'ford', 'honda', 'mazda']
-
-# selected_brand = st.sidebar.selectbox('選擇品牌', brand_list)
-
-
-
-with open('../html_files/nissan_lda.html', 'r') as f:
-    html_string = f.read()
-components.html(html_string, height=660, scrolling=True)
+# Load HTML file in HTML component for display on Streamlit page
+components.html(HtmlFile.read(), height=660, scrolling=True)
