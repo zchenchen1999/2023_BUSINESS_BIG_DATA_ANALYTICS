@@ -14,6 +14,7 @@ st.title("主題模型")
 
 
 # 主題模型描述 dataframe
+st.header('主題模型描述')
 topic = {
     '': ['Topic1', 'Topic2', 'Topic3', 'Topic4', 'Topic5'],
     '主題關鍵字': ['業務、預算、空間、價格、不錯、隔音、安全、試乘、後座', 
@@ -30,6 +31,9 @@ st.dataframe(topic_df)
 
 
 # 主題模型 html 讀取
+
+st.write('主題模型閱讀說明: ')
+st.write('● · 左邊的圓圈代表不同的主題，圓圈大小代表該主題的討論量')
 path = './html_files/nissan_lda.html'
 with open(path, 'r') as f :
     HtmlFile = f.read()
