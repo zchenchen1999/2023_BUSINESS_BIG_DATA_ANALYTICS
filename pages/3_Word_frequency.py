@@ -87,6 +87,10 @@ selected_ending_month = st.sidebar.selectbox(
 selected_beginning_date = pd.to_datetime(selected_beginning_month, format='%Y-%m')
 selected_ending_date = pd.to_datetime(selected_ending_month, format='%Y-%m')
 
+# 防呆機制：結束月份不能選擇比起始月份還前面的日期
+if selected_ending_date < selected_beginning_date:
+    st.sidebar.error("結束月份不能早於起始月份")
+
 # Filter the dataframe based on selected brands and dates
 df_select = df_interact.loc[(df_interact['brand'].isin(list(selected_brands))) &
                             (df_interact['artDate'].dt.to_period('M') >= selected_beginning_date.to_period('M')) &
@@ -130,22 +134,22 @@ else:
 
         # 文字雲
         FontPath = 'data/font/SourceHanSansTW-Regular.otf' # 設定字型
-        wordcloud = WordCloud(background_color='white', font_path=FontPath, max_words=200, use_container_width = True)
+        wordcloud = WordCloud(background_color='white', font_path=FontPath, max_words=200)
         wordcloud.generate_from_frequencies(freq_dict)
         plt.figure(figsize = (14,7))
         plt.imshow(wordcloud)
         plt.axis('off')
         plt.show()
-        st.pyplot()
+        st.pyplot(use_container_width = True)
 
         # 詞頻長條圖
-        fig = px.bar(freq_df_2.iloc[:20], x='word', y='freq', use_container_width = True)
+        fig = px.bar(freq_df_2.iloc[:20], x='word', y='freq')
         fig.update_layout(
             xaxis_title="斷詞",
             yaxis_title="數量",
             title="詞頻長條圖"
         )
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, use_container_width = True)
 
         st.markdown('資料表')
 
@@ -190,23 +194,23 @@ else:
 
             # 文字雲
             FontPath = 'data/font/SourceHanSansTW-Regular.otf' # 設定字型
-            wordcloud = WordCloud(background_color='white', font_path=FontPath, max_words=200, use_container_width = True)
+            wordcloud = WordCloud(background_color='white', font_path=FontPath, max_words=200)
             wordcloud.generate_from_frequencies(freq_dict)
             plt.figure(figsize = (14,7))
             plt.imshow(wordcloud)
             plt.axis('off')
             plt.show()
-            st.pyplot()
+            st.pyplot(use_container_width = True)
 
             # 詞頻長條圖
-            fig = px.bar(freq_df_3.iloc[:20], x='word', y='freq', use_container_width = True)
+            fig = px.bar(freq_df_3.iloc[:20], x='word', y='freq')
             fig.update_layout(
                 # yaxis = list(autorange = "reversed"),
                 xaxis_title="斷詞",
                 yaxis_title="數量",
                 title="詞頻長條圖"
             )
-            st.plotly_chart(fig)
+            st.plotly_chart(fig, use_container_width = True)
 
             st.markdown('資料表')
 
