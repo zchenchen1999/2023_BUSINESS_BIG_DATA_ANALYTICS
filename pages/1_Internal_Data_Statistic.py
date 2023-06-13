@@ -76,6 +76,10 @@ selected_ending_month = st.sidebar.selectbox(
 selected_beginning_date = pd.to_datetime(selected_beginning_month, format='%Y-%m')
 selected_ending_date = pd.to_datetime(selected_ending_month, format='%Y-%m')
 
+# 防呆機制：結束月份不能選擇比起始月份還前面的日期
+if selected_ending_date < selected_beginning_date:
+    st.sidebar.error("結束月份不能早於起始月份")
+
 # Filter the dataframe based on selected brands and dates
 df_select = df_interact.loc[(df_interact['DEALERCODE'].isin(list(select_dealer))) &
                             (df_interact['建檔日'].dt.to_period('M') >= selected_beginning_date.to_period('M')) &
@@ -98,13 +102,13 @@ else:
             customer = df_select.groupby([df_select['建檔日'].dt.to_period('M').astype(str)])['有望客ID'].count().reset_index()
 
             # Plot line chart
-            fig = px.line(customer, x="建檔日", y="有望客ID", use_container_width = True)
+            fig = px.line(customer, x="建檔日", y="有望客ID")
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="來客數",
                 title="來客數趨勢"
             )
-            st.plotly_chart(fig)
+            st.plotly_chart(fig, use_container_width = True)
 
         elif select_comp == '來店數X性別':
 
@@ -112,13 +116,13 @@ else:
             customer = df_select.groupby(['性別',df_select['建檔日'].dt.to_period('M').astype(str)])['有望客ID'].count().reset_index()
 
             # Plot line chart
-            fig = px.line(customer, x="建檔日", y="有望客ID", color='性別', use_container_width = True)
+            fig = px.line(customer, x="建檔日", y="有望客ID", color='性別')
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="來客數",
                 title="各性別來客數趨勢"
             )
-            st.plotly_chart(fig)
+            st.plotly_chart(fig, use_container_width = True)
 
         elif select_comp == '來店數X初始分級':
 
@@ -126,13 +130,13 @@ else:
             customer = df_select.groupby(['初始分級',df_select['建檔日'].dt.to_period('M').astype(str)])['有望客ID'].count().reset_index()
 
             # Plot line chart
-            fig = px.line(customer, x="建檔日", y="有望客ID", color='初始分級', use_container_width = True)
+            fig = px.line(customer, x="建檔日", y="有望客ID", color='初始分級')
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="來客數",
                 title="各初始分級來客數趨勢"
             )
-            st.plotly_chart(fig)
+            st.plotly_chart(fig, use_container_width = True)
         
 
     elif select_chart == '有望客年齡':
@@ -147,13 +151,13 @@ else:
             customer = df_select.groupby([df_select['建檔日'].dt.to_period('M').astype(str)])['年齡'].mean().reset_index()
 
             # Plot line chart
-            fig = px.line(customer, x="建檔日", y="年齡", use_container_width = True)
+            fig = px.line(customer, x="建檔日", y="年齡")
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="平均年齡",
                 title="有望客年齡趨勢"
             )
-            st.plotly_chart(fig)
+            st.plotly_chart(fig, use_container_width = True)
 
         elif select_comp == '年齡X性別':
 
@@ -161,13 +165,13 @@ else:
             customer = df_select.groupby(['性別',df_select['建檔日'].dt.to_period('M').astype(str)])['年齡'].mean().reset_index()
 
             # Plot line chart
-            fig = px.line(customer, x="建檔日", y="年齡", color='性別', use_container_width = True)
+            fig = px.line(customer, x="建檔日", y="年齡", color='性別')
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="平均年齡",
                 title="各性別有望客年齡趨勢"
             )
-            st.plotly_chart(fig)
+            st.plotly_chart(fig, use_container_width = True)
 
         elif select_comp == '年齡X初始分級':
 
@@ -175,13 +179,13 @@ else:
             customer = df_select.groupby(['初始分級',df_select['建檔日'].dt.to_period('M').astype(str)])['年齡'].mean().reset_index()
 
             # Plot line chart
-            fig = px.line(customer, x="建檔日", y="年齡", color='初始分級', use_container_width = True)
+            fig = px.line(customer, x="建檔日", y="年齡", color='初始分級')
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="平均年齡",
                 title="各初始分級有望客年齡趨勢"
             )
-            st.plotly_chart(fig)
+            st.plotly_chart(fig, use_container_width = True)
 
 
     elif select_chart == '成交車系':
@@ -193,13 +197,13 @@ else:
         freq_df = freq_df[clist]
         freq_df.sort_values(ascending=False, by='freq',inplace=True)
 
-        fig = px.bar(freq_df.iloc[:20], x='成交車系', y='freq', use_container_width = True)
+        fig = px.bar(freq_df.iloc[:20], x='成交車系', y='freq')
         fig.update_layout(
             xaxis_title="車系",
             yaxis_title="數量",
             title="各車系交車數長條圖"
         )
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, use_container_width = True)
 
     elif select_chart == '試乘車輛數':
 
@@ -214,13 +218,13 @@ else:
             customer = df_select.groupby([df_select['建檔日'].dt.to_period('M').astype(str)])['試乘車輛'].sum().reset_index()
 
             # Plot line chart
-            fig = px.line(customer, x="建檔日", y="試乘車輛", use_container_width = True)
+            fig = px.line(customer, x="建檔日", y="試乘車輛")
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="試乘車輛數",
                 title="有望客試乘車輛數趨勢"
             )
-            st.plotly_chart(fig)
+            st.plotly_chart(fig, use_container_width = True)
 
         elif select_comp == '試乘車輛數X性別':
 
@@ -228,13 +232,13 @@ else:
             customer = df_select.groupby(['性別',df_select['建檔日'].dt.to_period('M').astype(str)])['試乘車輛'].sum().reset_index()
 
             # Plot line chart
-            fig = px.line(customer, x="建檔日", y="試乘車輛", color='性別', use_container_width = True)
+            fig = px.line(customer, x="建檔日", y="試乘車輛", color='性別')
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="試乘車輛數",
                 title="各性別有望客試乘車輛數趨勢"
             )
-            st.plotly_chart(fig)
+            st.plotly_chart(fig, use_container_width = True)
 
         elif select_comp == '試乘車輛數X初始分級':
 
@@ -242,10 +246,10 @@ else:
             customer = df_select.groupby(['初始分級',df_select['建檔日'].dt.to_period('M').astype(str)])['試乘車輛'].sum().reset_index()
 
             # Plot line chart
-            fig = px.line(customer, x="建檔日", y="試乘車輛", color='初始分級', use_container_width = True)
+            fig = px.line(customer, x="建檔日", y="試乘車輛", color='初始分級')
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="試乘車輛數",
                 title="各初始分級有望客試乘車輛數趨勢"
             )
-            st.plotly_chart(fig)
+            st.plotly_chart(fig, use_container_width = True)
