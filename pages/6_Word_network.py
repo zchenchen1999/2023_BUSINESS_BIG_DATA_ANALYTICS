@@ -53,7 +53,7 @@ df = df[df['item1'] != df['item2']]
 # 節點數量
 all_nodes = pd.unique(df[['item1', 'item2']].values.ravel())
 st.sidebar.write('節點數量:', len(all_nodes))
-st.sidebar.text('提醒 : 節點數越多生成圖的時間越長，請耐心等待~')
+st.sidebar.text('提醒:節點數越多生成圖的時間越長，請耐心等待')
 
 # -------------------------------------------------------- Pyvis ----------------------------------------------------------#
 Cor_Graph = {}
