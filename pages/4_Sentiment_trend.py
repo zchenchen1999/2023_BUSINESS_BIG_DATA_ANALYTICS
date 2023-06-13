@@ -102,8 +102,22 @@ import plotly.express as px
 # 預設顯示 wide mode
 st.set_page_config(layout="wide")
 
-# Read dataset (CSV)
-df_interact = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/ptt_data.csv')
+#讀取品牌ptt資料
+ford = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/ford_clean_data.csv')
+honda = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/honda_clean_data.csv')
+mazda = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/mazda_clean_data.csv')
+toyota = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/toyota_clean_data.csv')
+nissan = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/nissan_clean_data.csv')
+
+#新增品牌欄位
+ford = ford.assign(Brand='Ford')
+honda = honda.assign(Brand='Honda')
+mazda = mazda.assign(Brand='Mazda')
+nissan = nissan.assign(Brand='Nissan')
+toyota = toyota.assign(Brand='Toyota')
+
+# 資料框合併
+df_interact = pd.concat([ford, honda, mazda, nissan, toyota], ignore_index=True)
 
 # 轉換日期欄位為 datetime
 df_interact['artDate'] = pd.to_datetime(df_interact['artDate'], format='%Y-%m-%d')
@@ -175,8 +189,10 @@ df_filtered_sentiment_positive['artDate'] = pd.to_datetime(df_filtered_sentiment
 df_filtered_sentiment_negative['artDate'] = pd.to_datetime(df_filtered_sentiment_negative['artDate'])
 
 # Group by brand, artDate, and sentiment, then calculate total volume
-brand_sentiment_count_positive = df_filtered_sentiment_positive.groupby(['Brand', pd.Grouper(key='artDate', freq='M', sort=False)])['Brand'].count().reset_index(name='count')
-brand_sentiment_count_negative = df_filtered_sentiment_negative.groupby(['Brand', pd.Grouper(key='artDate', freq='M', sort=False)])['Brand'].count().reset_index(name='count')
+brand_sentiment_count_positive = df_filtered_sentiment_positive.groupby(['Brand', pd.Grouper(key='artDate', freq='M', sort=False)])['Brand'].count().reset_index(name='count').rename(columns={'count': 'positive_count'})
+
+brand_sentiment_count_negative = df_filtered_sentiment_negative.groupby(['Brand', pd.Grouper(key='artDate', freq='M', sort=False)])['Brand'].count().reset_index(name='count').rename(columns={'count': 'negative_count'})
+
 
 # Merge positive and negative counts
 brand_sentiment_count_merged = pd.merge(brand_sentiment_count_positive, brand_sentiment_count_negative, on=['Brand', 'artDate'], how='outer').fillna(0)
