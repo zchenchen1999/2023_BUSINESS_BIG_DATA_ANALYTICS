@@ -12,7 +12,7 @@ import plotly.express as px
 
 # 雲端連線
 try: 
-    conn = st.experimetal_connection('gcs', type=st.FilesConnection)
+    conn = st.experimetal_connection('gcs', type=FilesConnection)
     ford = conn.read("big-data-class-2023/ford_clean_data.csv", input_format="csv", ttl=600)
     honda = conn.read("big-data-class-2023/honda_clean_data.csv", input_format="csv", ttl=600)
     mazda = conn.read("big-data-class-2023/mazda_clean_data.csv", input_format="csv", ttl=600)
