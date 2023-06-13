@@ -6,6 +6,7 @@ st.set_page_config(layout="wide")
 # 負責人：伊廷
 
 import streamlit as st
+from st_files_connection import FilesConnection
 import pandas as pd
 import plotly.express as px
 
