@@ -1,4 +1,6 @@
 .streamlit/secrets.toml
 *.csv
 dict
+*.whl
+*.DS_Store
 data/correlation

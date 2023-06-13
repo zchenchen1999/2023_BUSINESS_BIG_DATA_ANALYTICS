@@ -3,32 +3,32 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-#from st_files_connection import FilesConnection
+from st_files_connection import FilesConnection
 
 # 預設顯示 wide mode
 st.set_page_config(layout="wide")
 
-# # 雲端讀取檔案
-# conn = st.experimental_connection('gcs', type=FilesConnection)
+# 雲端讀取檔案
+conn = st.experimental_connection('gcs', type=FilesConnection)
 
-# @st.cache_data(persist=True)  # 👈 Add the caching decorator
-# def load_data(url):
-#     csv_data = conn.read(url, input_format="csv", ttl=None)
-#     return csv_data
+@st.cache_data(persist=True)  # 👈 Add the caching decorator
+def load_data(url):
+    csv_data = conn.read(url, input_format="csv", ttl=None)
+    return csv_data
     
-# # 讀取品牌ptt資料
-# nissan = load_data("big-data-class-2023/nissan_clean_data.csv")
-# toyota = load_data("big-data-class-2023/toyota_clean_data.csv")
-# ford = load_data("big-data-class-2023/ford_clean_data.csv")
-# honda = load_data("big-data-class-2023/honda_clean_data.csv")
-# mazda = load_data("big-data-class-2023/mazda_clean_data.csv")
+# 讀取品牌ptt資料
+nissan = load_data("big-data-class-2023/nissan_clean_data.csv")
+toyota = load_data("big-data-class-2023/toyota_clean_data.csv")
+ford = load_data("big-data-class-2023/ford_clean_data.csv")
+honda = load_data("big-data-class-2023/honda_clean_data.csv")
+mazda = load_data("big-data-class-2023/mazda_clean_data.csv")
 
-#讀取品牌ptt資料
-ford = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/ford_clean_data.csv')
-honda = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/honda_clean_data.csv')
-mazda = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/mazda_clean_data.csv')
-toyota = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/toyota_clean_data.csv')
-nissan = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/nissan_clean_data.csv')
+# #讀取品牌ptt資料
+# ford = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/ford_clean_data.csv')
+# honda = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/honda_clean_data.csv')
+# mazda = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/mazda_clean_data.csv')
+# toyota = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/toyota_clean_data.csv')
+# nissan = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/nissan_clean_data.csv')
 
 #新增品牌欄位
 ford = ford.assign(Brand='Ford')
@@ -82,6 +82,10 @@ selected_ending_month = st.sidebar.selectbox(
 # 將選擇的月份轉換為 datetime 格式
 selected_beginning_date = pd.to_datetime(selected_beginning_month, format='%Y-%m')
 selected_ending_date = pd.to_datetime(selected_ending_month, format='%Y-%m')
+
+# 防呆機制：結束月份不能選擇比起始月份還前面的日期
+if selected_ending_date < selected_beginning_date:
+    st.sidebar.error("結束月份不能早於起始月份")
 
 # Filter the dataframe based on selected brands and dates
 df_select = df_interact.loc[(df_interact['Brand'].isin(list(selected_brands))) &
