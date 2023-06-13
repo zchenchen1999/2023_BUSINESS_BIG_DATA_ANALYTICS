@@ -1,10 +1,10 @@
+# 負責人：誠哲
+'''
 import streamlit as st
-import streamlit.components.v1 as components
 import pandas as pd
-import networkx as nx
 import datetime
 from pyvis.network import Network
-from datetime import datetime, timedelta
+import plotly.express as px
 
 # 預設顯示 wide mode
 st.set_page_config(layout="wide")
@@ -14,87 +14,196 @@ st.title("品牌情緒趨勢圖")
 
 ## content
 # Read dataset (CSV)
-ford = pd.read_csv('/Users/jerry/Library/CloudStorage/OneDrive-輔仁大學/中山企管/碩一下/CM505/rawData/ford_ptt_clean.csv')
-honda = pd.read_csv('/Users/jerry/Library/CloudStorage/OneDrive-輔仁大學/中山企管/碩一下/CM505/rawData/honda_ptt_clean.csv')
-mazda = pd.read_csv('/Users/jerry/Library/CloudStorage/OneDrive-輔仁大學/中山企管/碩一下/CM505/rawData/mazda_ptt_clean.csv')
-toyota = pd.read_csv('/Users/jerry/Library/CloudStorage/OneDrive-輔仁大學/中山企管/碩一下/CM505/rawData/toyota_ptt_clean.csv')
-nissan = pd.read_csv('/Users/jerry/Library/CloudStorage/OneDrive-輔仁大學/中山企管/碩一下/CM505/rawData/nissan_ptt_clean.csv')
+df_interact = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/ptt_data.csv')
+
+# 轉換日期欄位為 datetime
+df_interact['artDate'] = pd.to_datetime(df_interact['artDate'], format='%Y-%m-%d')
 
 # Set header title
-st.title('Brand Sentiment Trend Chart')
+st.title('品牌網路情緒趨勢')
+st.markdown('情緒：該月份的PTT情緒總數')
 
 # Define list of selection options and sort alphabetically
-brand_list = ['Ford', 'Honda', 'Mazda', 'Toyota',
-            'Nissan']
+brand_list = ['Ford', 'Honda', 'Mazda', 'Toyota', 'Nissan']
 brand_list.sort()
 
-#Define list of time
-start_date = datetime.date(2020, 12, 1)
-end_date = datetime.date(2023, 1, 1)
-date_range = pd.date_range(start_date, end_date, freq= 'MS').strftime("%Y/%m").tolist()
-selected_month = st.selectbox("Select a month", date_range)
-st.write("Selected Month", selected_month)
+# Implement multiselect dropdown menu for option selection (returns a list)
+st.sidebar.title('選擇品牌')
+selected_brands = st.sidebar.multiselect('選擇品牌', brand_list, default=['Nissan'])
 
+st.sidebar.divider()  # 分隔線
 
-# # Implement multiselect dropdown menu for option selection (returns a list)
-# selected_brand = st.multiselect('Select brand(s) to visualize', brand_list)
+# 選擇月份
+st.sidebar.title('選擇月份區間')
+st.sidebar.caption('有效月份範圍：2020-12 - 2023-01')
 
-# # Set info message on initial site load
-# if len(selected_brand) == 0:
-#     st.text('Choose at least 1 brand to start')
+# 取得所有的月份選項
+all_months = pd.period_range(start='2020-12', end='2023-01', freq='M')
 
-# # Create network graph when user selects >= 1 item
-# else:
-#     df_select = df_interact.loc[df_interact['brand_1_name'].isin(selected_brand) | \
-#                                 df_interact['brand_2_name'].isin(selected_brand)]
-#     df_select = df_select.reset_index(drop=True)
+# 轉換日期選項為字串格式
+month_options = [str(month) for month in all_months]
 
-#     # Create networkx graph object from pandas dataframe
-#     G = nx.from_pandas_edgelist(df_select, 'drug_1_name', 'drug_2_name', 'weight')
+# 選擇資料起始月份
+selected_beginning_month = st.sidebar.selectbox(
+    "選擇資料起始月份",
+    month_options, index=0    # 設定預設選項為索引 0，即 2020-12
+)
 
-#     # Initiate PyVis network object
-#     drug_net = Network(
-#                        height='400px',
-#                        width='100%',
-#                        bgcolor='#222222',
-#                        font_color='white'
-#                       )
+# 選擇資料結束月份
+selected_ending_month = st.sidebar.selectbox(
+    "選擇資料結束月份",
+    month_options, index=len(month_options)-1   # 設定預設選項為索引最大值，即 2023-1
+)
 
-#     # Take Networkx graph and translate it to a PyVis graph format
-#     drug_net.from_nx(G)
+# 將選擇的月份轉換為 datetime 格式
+selected_beginning_date = pd.to_datetime(selected_beginning_month, format='%Y-%m')
+selected_ending_date = pd.to_datetime(selected_ending_month, format='%Y-%m')
 
-#     # Generate network with specific layout settings
-#     drug_net.repulsion(
-#                         node_distance=420,
-#                         central_gravity=0.33,
-#                         spring_length=110,
-#                         spring_strength=0.10,
-#                         damping=0.95
-#                        )
+# Filter the dataframe based on selected brands and dates
+df_select = df_interact.loc[(df_interact['Brand'].isin(list(selected_brands))) &
+                            (df_interact['artDate'].dt.to_period('M') >= selected_beginning_date.to_period('M')) &
+                            (df_interact['artDate'].dt.to_period('M') <= selected_ending_date.to_period('M'))]
 
-#     # Save and read graph as HTML file (on Streamlit Sharing)
-#     try:
-#         path = '/tmp'
-#         drug_net.save_graph(f'{path}/pyvis_graph.html')
-#         HtmlFile = open(f'{path}/pyvis_graph.html', 'r', encoding='utf-8')
+st.sidebar.divider() #分隔線
 
-#     # Save and read graph as HTML file (locally)
-#     except:
-#         path = '/html_files'
-#         drug_net.save_graph(f'{path}/pyvis_graph.html')
-#         HtmlFile = open(f'{path}/pyvis_graph.html', 'r', encoding='utf-8')
+# 選擇正負向文章
+st.sidebar.title('選擇正負向文章類別')
+sentiment_list = ['positive', 'negative']
+selected_sentiment = st.sidebar.multiselect('選擇正向或負向類別', sentiment_list, default=['positive'])
 
-#     # Load HTML file in HTML component for display on Streamlit page
-#     components.html(HtmlFile.read(), height=435)
+# Filter dataframe based on selected sentimentRatio
+df_filtered_sentiment = df_select[(df_select['sentimentRatio'] > 0.6) | (df_select['sentimentRatio'] < 0.4)]
 
-# # Footer
-# st.markdown(
-#     """
-#     <br>
-#     <h6><a href="https://github.com/kennethleungty/Pyvis-Network-Graph-Streamlit" target="_blank">GitHub Repo</a></h6>
-#     <h6><a href="https://kennethleungty.medium.com" target="_blank">Medium article</a></h6>
-#     <h6>Disclaimer: This app is NOT intended to provide any form of medical advice or recommendations. Please consult your doctor or pharmacist for professional advice relating to any drug therapy.</h6>
-#     """, unsafe_allow_html=True
-#     )
+# Group by brand, artDate, and sentiment, then calculate total volume
+brand_sentiment_count = df_filtered_sentiment.groupby(['Brand', df_filtered_sentiment['artDate'].dt.to_period('M').astype(str)])['artUrl'].count().reset_index()
 
-# 負責人：誠哲
+# Pivot the data to have sentiment as columns
+brand_sentiment_count_pivot = brand_sentiment_count.pivot_table(index=['Brand', 'artDate'],
+                                                               columns='sentimentRatio',
+                                                               values='artUrl',
+                                                               fill_value=0).reset_index()
+
+# Plot line chart
+fig = px.line(brand_sentiment_count_pivot, x="artDate", y=selected_sentiment,
+              color="Brand", title="品牌情緒趨勢")
+
+fig.update_layout(
+    xaxis_title="月份",
+    yaxis_title="文章數量",
+    title="品牌情緒趨勢"
+)
+st.plotly_chart(fig)
+'''
+
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+
+# 預設顯示 wide mode
+st.set_page_config(layout="wide")
+
+# Read dataset (CSV)
+df_interact = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/ptt_data.csv')
+
+# 轉換日期欄位為 datetime
+df_interact['artDate'] = pd.to_datetime(df_interact['artDate'], format='%Y-%m-%d')
+
+# Set header title
+st.title('品牌網路情緒趨勢')
+st.markdown('情緒：該月份的PTT情緒總數')
+
+# Define list of selection options and sort alphabetically
+brand_list = ['Ford', 'Honda', 'Mazda', 'Toyota', 'Nissan']
+brand_list.sort()
+
+# Implement multiselect dropdown menu for option selection (returns a list)
+st.sidebar.title('選擇品牌')
+selected_brands = st.sidebar.multiselect('選擇品牌', brand_list, default=['Nissan'])
+
+st.sidebar.divider()  # 分隔線
+
+# 選擇月份
+st.sidebar.title('選擇月份區間')
+st.sidebar.caption('有效月份範圍：2020-12 - 2023-01')
+
+# 取得所有的月份選項
+all_months = pd.period_range(start='2020-12', end='2023-01', freq='M')
+
+# 轉換日期選項為字串格式
+month_options = [str(month) for month in all_months]
+
+# 選擇資料起始月份
+selected_beginning_month = st.sidebar.selectbox(
+    "選擇資料起始月份",
+    month_options, index=0    # 設定預設選項為索引 0，即 2020-12
+)
+
+# 選擇資料結束月份
+selected_ending_month = st.sidebar.selectbox(
+    "選擇資料結束月份",
+    month_options, index=len(month_options)-1   # 設定預設選項為索引最大值，即 2023-1
+)
+
+# 將選擇的月份轉換為 datetime 格式
+selected_beginning_date = pd.to_datetime(selected_beginning_month, format='%Y-%m')
+selected_ending_date = pd.to_datetime(selected_ending_month, format='%Y-%m')
+
+# Filter the dataframe based on selected brands and dates
+df_select = df_interact.loc[(df_interact['Brand'].isin(list(selected_brands))) &
+                            (df_interact['artDate'].dt.to_period('M') >= selected_beginning_date.to_period('M')) &
+                            (df_interact['artDate'].dt.to_period('M') <= selected_ending_date.to_period('M'))]
+
+st.sidebar.divider() #分隔線
+
+# 選擇正負向文章
+st.sidebar.title('選擇正負向文章類別')
+sentiment_list = ['positive', 'negative']
+selected_sentiment = st.sidebar.multiselect('選擇正向或負向類別', sentiment_list, default=['positive'])
+
+# Filter dataframe based on selected sentimentRatio
+if 'positive' in selected_sentiment:
+    df_filtered_sentiment_positive = df_select[df_select['sentimentRatio'] > 0.6]
+else:
+    df_filtered_sentiment_positive = pd.DataFrame(columns=df_select.columns)  # 空的 DataFrame
+
+if 'negative' in selected_sentiment:
+    df_filtered_sentiment_negative = df_select[df_select['sentimentRatio'] < 0.4]
+else:
+    df_filtered_sentiment_negative = pd.DataFrame(columns=df_select.columns)  # 空的 DataFrame
+
+df_filtered_sentiment_positive['artDate'] = pd.to_datetime(df_filtered_sentiment_positive['artDate'])
+df_filtered_sentiment_negative['artDate'] = pd.to_datetime(df_filtered_sentiment_negative['artDate'])
+
+# Group by brand, artDate, and sentiment, then calculate total volume
+brand_sentiment_count_positive = df_filtered_sentiment_positive.groupby(['Brand', pd.Grouper(key='artDate', freq='M', sort=False)])['Brand'].count().reset_index(name='count')
+brand_sentiment_count_negative = df_filtered_sentiment_negative.groupby(['Brand', pd.Grouper(key='artDate', freq='M', sort=False)])['Brand'].count().reset_index(name='count')
+
+# Merge positive and negative counts
+brand_sentiment_count_merged = pd.merge(brand_sentiment_count_positive, brand_sentiment_count_negative, on=['Brand', 'artDate'], how='outer').fillna(0)
+
+# Pivot the table to have sentimentRatio as columns
+brand_sentiment_count_pivot = brand_sentiment_count_merged.pivot_table(index='artDate',
+                                                                      columns='Brand',
+                                                                      values='count',
+                                                                      fill_value=0)
+
+# Plot line chart
+fig = px.line(brand_sentiment_count_pivot, x=brand_sentiment_count_pivot.index, y=selected_sentiment,
+              color_discrete_map={"positive": "green", "negative": "red"},
+              title="品牌情緒趨勢")
+
+fig.update_layout(
+    xaxis_title="月份",
+    yaxis_title="文章數量",
+    title="品牌情緒趨勢"
+)
+
+st.plotly_chart(fig)
+
+fig.update_layout(
+    xaxis_title="月份",
+    yaxis_title="文章數量",
+    title="品牌情緒趨勢"
+)
+st.plotly_chart(fig)
+
