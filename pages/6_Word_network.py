@@ -13,7 +13,7 @@ from st_files_connection import FilesConnection
 st.set_page_config(layout="wide")
 
 # title
-st.title("廠牌字詞網路圖")
+st.title("字詞網路圖")
 
 
 st.sidebar.header('參數調整')
@@ -29,13 +29,15 @@ selected_brand = st.sidebar.selectbox('選擇品牌', brand_list)
 corr_values = st.sidebar.slider('選擇關聯度區間', 0.0, 1.0, (0.9, 1.0))
 st.sidebar.write('關聯度:', corr_values)
 
-
+st.markdown('##### 字詞網路圖說明: ')
+st.text(' ● 可以放大縮小、點擊節點進行拖拉')
+st.text(' ● 連接節點的線越粗代表關聯度越高')
+st.text(' ● 當關聯度區間較大時，需要一點時間等待圖的生成，請耐心等候不要進行其他操作')
 
 # ---------------------------------------------------------- Load Data ----------------------------------------------------------#
 
 
 conn = st.experimental_connection('gcs', type=FilesConnection)
-# df = conn.read('big-data-class-2023/word2vec/' + selected_brand + '_correlation.csv', input_format='csv', ttl=600)
 
 @st.cache_data(persist=True)  # 👈 Add the caching decorator
 def load_data(url):
