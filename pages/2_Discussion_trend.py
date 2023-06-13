@@ -24,23 +24,6 @@ ford = load_data("big-data-class-2023/ford_clean_data.csv")
 honda = load_data("big-data-class-2023/honda_clean_data.csv")
 mazda = load_data("big-data-class-2023/mazda_clean_data.csv")
 
-# 雲端連線
-# try: 
-#     conn = st.experimetal_connection('gcs', type=FilesConnection)
-#     ford = conn.read("big-data-class-2023/ford_clean_data.csv", input_format="csv", ttl=600)
-#     honda = conn.read("big-data-class-2023/honda_clean_data.csv", input_format="csv", ttl=600)
-#     mazda = conn.read("big-data-class-2023/mazda_clean_data.csv", input_format="csv", ttl=600)
-#     nissan = conn.read("big-data-class-2023/nissan_clean_data.csv", input_format="csv", ttl=600)
-#     toyota = conn.read("big-data-class-2023/toyota_clean_data.csv", input_format="csv", ttl=600)
-# # 本機讀取
-# except:
-#     ford = pd.read_csv('data/ford_clean_data.csv')
-#     honda = pd.read_csv('data/honda_clean_data.csv')
-#     mazda = pd.read_csv('data/mazda_clean_data.csv')
-#     nissan = pd.read_csv('data/nissan_clean_data.csv')
-#     toyota = pd.read_csv('data/toyota_clean_data.csv')
-#     pass
-
 # 新增品牌欄位
 ford = ford.assign(Brand='Ford')
 honda = honda.assign(Brand='Honda')
@@ -90,13 +73,13 @@ selected_ending_month = st.sidebar.selectbox(
     month_options, index=len(month_options)-1   # 設定預設選項為索引最大值，即 2023-1
 )
 
-# 防呆機制：結束月份不能選擇比起始月份還前面的日期
-if selected_ending_date < selected_beginning_date:
-    st.sidebar.error("結束月份不能早於起始月份")
-
 # 將選擇的月份轉換為 datetime 格式
 selected_beginning_date = pd.to_datetime(selected_beginning_month, format='%Y-%m')
 selected_ending_date = pd.to_datetime(selected_ending_month, format='%Y-%m')
+
+# 防呆機制：結束月份不能選擇比起始月份還前面的日期
+if selected_ending_date < selected_beginning_date:
+    st.sidebar.error("結束月份不能早於起始月份")
 
 # Filter the dataframe based on selected brands and dates
 df_select = df_interact.loc[(df_interact['Brand'].isin(list(selected_brands))) &
@@ -116,13 +99,13 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width = True)
 
 st.dataframe(
-    df_select[["artTitle", "artDate", "artCatagory", "artContent"]],
-    column_config={
+    df_select[["artTitle", "artDate", "artCatagory", "artContent", "Brand"]],
+    columns={
         "artTitle": "文章標題",
         "artDate": "發文日期",
         "artCatagory": "文章版面",
         "artContent": "文章內容",
-        "Brand":"品牌",
+        "Brand": "品牌",
     },
     hide_index=True,
-    )
+)
