@@ -108,4 +108,5 @@ st.dataframe(
         "Brand": "品牌",
     },
     hide_index=True,
+    use_container_width=True
 )

@@ -4,7 +4,15 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+from st_files_connection import FilesConnection
 
+# 設定資料連結
+conn = st.experimental_connection('gcs', type=FilesConnection)
+
+@st.cache_data(persist=True)  # 👈 Add the caching decorator
+def load_data(url):
+    csv_data = conn.read(url, input_format="csv", ttl=None)
+    return csv_data
 
 # title
 st.title("Nissan 內外部相關性分析")
@@ -39,19 +47,25 @@ elif optionFrequency == '週頻':
 # app: 給出對應資料  
 if optionName == 'Nissan':
   if optionFrequency == '月頻':
-    data = pd.read_excel('../data/correlation/月頻total內外部資料.xlsx')
+    # data = pd.read_excel('../data/correlation/月頻total內外部資料.xlsx')
+    data = load_data("big-data-class-2023/correlation/月頻total內外部資料.csv")
   elif optionFrequency == '週頻':
-    data = pd.read_excel('../data/correlation/週頻total內外部資料.xlsx')
+    # data = pd.read_excel('../data/correlation/週頻total內外部資料.xlsx')
+    data = load_data("big-data-class-2023/correlation/週頻total內外部資料.csv")
 if optionName == 'Kicks': 
   if optionFrequency == '月頻':
-    data = pd.read_excel('../data/correlation/月頻kicks內外部資料.xlsx')
+    # data = pd.read_excel('../data/correlation/月頻kicks內外部資料.xlsx')
+    data = load_data("big-data-class-2023/correlation/月頻kicks內外部資料.csv")
   elif optionFrequency == '週頻':
-    data = pd.read_excel('../data/correlation/週頻kicks內外部資料.xlsx')
+    # data = pd.read_excel('../data/correlation/週頻kicks內外部資料.xlsx')
+    data = load_data("big-data-class-2023/correlation/週頻kicks內外部資料.csv")
 if optionName == 'Sentra':
   if optionFrequency == '月頻':
-    data = pd.read_excel('../data/correlation/月頻sentra內外部資料.xlsx')
+    # data = pd.read_excel('../data/correlation/月頻sentra內外部資料.xlsx')
+    data = load_data("big-data-class-2023/correlation/月頻sentra內外部資料.csv")
   elif optionFrequency == '週頻':
-    data = pd.read_excel('../data/correlation/週頻sentra內外部資料.xlsx')
+    # data = pd.read_excel('../data/correlation/週頻sentra內外部資料.xlsx')
+    data = load_data("big-data-class-2023/correlation/週頻sentra內外部資料.csv")
 
 
 # sidebar condition
