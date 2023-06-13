@@ -13,7 +13,7 @@ st.set_page_config(layout="wide")
 st.title("主題模型")
 
 
-# 主題描述 dataframe
+# 主題模型描述 dataframe
 topic = {
     '': ['Topic1', 'Topic2', 'Topic3', 'Topic4', 'Topic5'],
     '主題關鍵字': ['業務、預算、空間、價格、不錯、隔音、安全、試乘、後座', 
@@ -26,6 +26,17 @@ topic = {
 
 topic_df = pd.DataFrame(topic)
 st.dataframe(topic_df)
+
+
+
+# 主題模型 html 讀取
+path = './html_files/nissan_lda.html'
+with open(path, 'r') as f :
+    HtmlFile = f.read()
+components.html(HtmlFile, height=900, scrolling=True)
+
+
+
 
 # 關鍵字查詢
 conn = st.experimental_connection('gcs', type=FilesConnection)
@@ -46,16 +57,10 @@ def get_article(word):
         return []
 
 word = st.text_input("請輸入想要查找的關鍵字:")
+
 if word:
     relative_art = get_article(word)
-    if relative_art:
-        st.dataframe(relative_art)
-    else:
+    if relative_art.empty:
         st.write("沒有找到相關文章.")
-
-
-# 主題模型 html 讀取
-path = './html_files/nissan_lda.html'
-with open(path, 'r') as f :
-    HtmlFile = f.read()
-components.html(HtmlFile, height=900, scrolling=True)
+    else:
+        st.dataframe(relative_art)
