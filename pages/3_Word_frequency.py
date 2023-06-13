@@ -92,7 +92,7 @@ df_select = df_interact.loc[(df_interact['brand'].isin(list(selected_brands))) &
                             (df_interact['artDate'].dt.to_period('M') >= selected_beginning_date.to_period('M')) &
                             (df_interact['artDate'].dt.to_period('M') <= selected_ending_date.to_period('M'))]
 if df_select.empty:
-    st.markdown("- :red[篩選後資料表為空值，請重新篩選動作], -")
+    st.markdown(":red[篩選後資料表為空值，請重新篩選動作]")
 
 else:
     # 生成詞頻dataframe
@@ -168,7 +168,7 @@ else:
 
         if df_select2.empty:
 
-            st.markdown("- :red[篩選後資料表為空值，請重新篩選動作], -")
+            st.markdown(":red[篩選後資料表為空值，請重新篩選動作]")
 
         else:
 
