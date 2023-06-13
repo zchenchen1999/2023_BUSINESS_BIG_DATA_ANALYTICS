@@ -98,7 +98,7 @@ else:
             customer = df_select.groupby([df_select['建檔日'].dt.to_period('M').astype(str)])['有望客ID'].count().reset_index()
 
             # Plot line chart
-            fig = px.line(customer, x="建檔日", y="有望客ID",width=1000, height = 500)
+            fig = px.line(customer, x="建檔日", y="有望客ID", use_container_width = True)
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="來客數",
@@ -112,7 +112,7 @@ else:
             customer = df_select.groupby(['性別',df_select['建檔日'].dt.to_period('M').astype(str)])['有望客ID'].count().reset_index()
 
             # Plot line chart
-            fig = px.line(customer, x="建檔日", y="有望客ID", color='性別',width=1000, height = 500)
+            fig = px.line(customer, x="建檔日", y="有望客ID", color='性別', use_container_width = True)
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="來客數",
@@ -126,7 +126,7 @@ else:
             customer = df_select.groupby(['初始分級',df_select['建檔日'].dt.to_period('M').astype(str)])['有望客ID'].count().reset_index()
 
             # Plot line chart
-            fig = px.line(customer, x="建檔日", y="有望客ID", color='初始分級',width=1000, height = 500)
+            fig = px.line(customer, x="建檔日", y="有望客ID", color='初始分級', use_container_width = True)
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="來客數",
@@ -147,7 +147,7 @@ else:
             customer = df_select.groupby([df_select['建檔日'].dt.to_period('M').astype(str)])['年齡'].mean().reset_index()
 
             # Plot line chart
-            fig = px.line(customer, x="建檔日", y="年齡",width=1000, height = 500)
+            fig = px.line(customer, x="建檔日", y="年齡", use_container_width = True)
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="平均年齡",
@@ -161,7 +161,7 @@ else:
             customer = df_select.groupby(['性別',df_select['建檔日'].dt.to_period('M').astype(str)])['年齡'].mean().reset_index()
 
             # Plot line chart
-            fig = px.line(customer, x="建檔日", y="年齡", color='性別',width=1000, height = 500)
+            fig = px.line(customer, x="建檔日", y="年齡", color='性別', use_container_width = True)
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="平均年齡",
@@ -175,7 +175,7 @@ else:
             customer = df_select.groupby(['初始分級',df_select['建檔日'].dt.to_period('M').astype(str)])['年齡'].mean().reset_index()
 
             # Plot line chart
-            fig = px.line(customer, x="建檔日", y="年齡", color='初始分級',width=1000, height = 500)
+            fig = px.line(customer, x="建檔日", y="年齡", color='初始分級', use_container_width = True)
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="平均年齡",
@@ -193,7 +193,7 @@ else:
         freq_df = freq_df[clist]
         freq_df.sort_values(ascending=False, by='freq',inplace=True)
 
-        fig = px.bar(freq_df.iloc[:20], x='成交車系', y='freq',width=1000, height = 500)
+        fig = px.bar(freq_df.iloc[:20], x='成交車系', y='freq', use_container_width = True)
         fig.update_layout(
             xaxis_title="車系",
             yaxis_title="數量",
@@ -214,7 +214,7 @@ else:
             customer = df_select.groupby([df_select['建檔日'].dt.to_period('M').astype(str)])['試乘車輛'].sum().reset_index()
 
             # Plot line chart
-            fig = px.line(customer, x="建檔日", y="試乘車輛",width=1000, height = 500)
+            fig = px.line(customer, x="建檔日", y="試乘車輛", use_container_width = True)
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="試乘車輛數",
@@ -228,7 +228,7 @@ else:
             customer = df_select.groupby(['性別',df_select['建檔日'].dt.to_period('M').astype(str)])['試乘車輛'].sum().reset_index()
 
             # Plot line chart
-            fig = px.line(customer, x="建檔日", y="試乘車輛", color='性別',width=1000, height = 500)
+            fig = px.line(customer, x="建檔日", y="試乘車輛", color='性別', use_container_width = True)
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="試乘車輛數",
@@ -242,7 +242,7 @@ else:
             customer = df_select.groupby(['初始分級',df_select['建檔日'].dt.to_period('M').astype(str)])['試乘車輛'].sum().reset_index()
 
             # Plot line chart
-            fig = px.line(customer, x="建檔日", y="試乘車輛", color='初始分級',width=1000, height = 500)
+            fig = px.line(customer, x="建檔日", y="試乘車輛", color='初始分級', use_container_width = True)
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="試乘車輛數",

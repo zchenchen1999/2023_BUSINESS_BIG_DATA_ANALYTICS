@@ -130,7 +130,7 @@ else:
 
         # 文字雲
         FontPath = 'data/font/SourceHanSansTW-Regular.otf' # 設定字型
-        wordcloud = WordCloud(background_color='white',width=800, height = 400, font_path=FontPath, max_words=200)
+        wordcloud = WordCloud(background_color='white', font_path=FontPath, max_words=200, use_container_width = True)
         wordcloud.generate_from_frequencies(freq_dict)
         plt.figure(figsize = (14,7))
         plt.imshow(wordcloud)
@@ -139,7 +139,7 @@ else:
         st.pyplot()
 
         # 詞頻長條圖
-        fig = px.bar(freq_df_2.iloc[:20], x='word', y='freq',width=1000, height = 500)
+        fig = px.bar(freq_df_2.iloc[:20], x='word', y='freq', use_container_width = True)
         fig.update_layout(
             xaxis_title="斷詞",
             yaxis_title="數量",
@@ -190,7 +190,7 @@ else:
 
             # 文字雲
             FontPath = 'data/font/SourceHanSansTW-Regular.otf' # 設定字型
-            wordcloud = WordCloud(background_color='white',width=800, height = 400, font_path=FontPath, max_words=200)
+            wordcloud = WordCloud(background_color='white', font_path=FontPath, max_words=200, use_container_width = True)
             wordcloud.generate_from_frequencies(freq_dict)
             plt.figure(figsize = (14,7))
             plt.imshow(wordcloud)
@@ -199,7 +199,7 @@ else:
             st.pyplot()
 
             # 詞頻長條圖
-            fig = px.bar(freq_df_3.iloc[:20], x='word', y='freq',width=1000, height = 500)
+            fig = px.bar(freq_df_3.iloc[:20], x='word', y='freq', use_container_width = True)
             fig.update_layout(
                 # yaxis = list(autorange = "reversed"),
                 xaxis_title="斷詞",
