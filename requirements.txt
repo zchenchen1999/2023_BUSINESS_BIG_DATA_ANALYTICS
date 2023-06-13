@@ -6,4 +6,7 @@ streamlit==1.23.0
 plotly==5.14.1
 st-annotated-text==4.0.0
 gcsfs==2023.5.0
+matplotlib==3.7.1
+wordcloud==1.9.2
+collection==0.1.6
 git+https://github.com/streamlit/files-connection
