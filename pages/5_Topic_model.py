@@ -8,6 +8,7 @@ from st_files_connection import FilesConnection
 
 # 預設顯示 wide mode
 st.set_page_config(layout="wide")
+st.set_option('dataframe.fit_columns_to_available_width', True)
 
 # title
 st.title("Nissan PTT 討論主題分析")
@@ -56,12 +57,12 @@ nissan = load_data("big-data-class-2023/nissan_clean_data.csv")
 def get_article(word):
     try:
         findword = nissan.loc[nissan['words'].str.contains(word)]
-        findword = findword[['system_id', 'artUrl', 'artTitle', 'artDate', 'artCatagory', 'artContent']]
+        findword = findword[['artTitle', 'artDate', 'artCatagory', 'artContent', 'artUrl']]
         return findword
     except KeyError:
         return []
 
-st.markdown('**可以在這邊搜尋特定關鍵字的文章**')
+st.markdown('**● 可以在這邊搜尋特定關鍵字的文章**')
 
 word = st.text_input("請輸入關鍵字:")
 
@@ -70,4 +71,12 @@ if word:
     if relative_art.empty:
         st.write("沒有找到相關文章.")
     else:
-        st.dataframe(relative_art)
+        st.dataframe(relative_art,     
+                     column_config = {
+                        "artTitle": "文章標題",
+                        "artDate": "發文日期",
+                        "artCatagory": "文章版別",
+                        "artContent": "文章內容",
+                        "artUrl": "文章連結",
+                    },
+                    hide_index=True,)
