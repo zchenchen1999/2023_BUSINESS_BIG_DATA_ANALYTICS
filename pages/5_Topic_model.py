@@ -39,7 +39,7 @@ topic = {
     '主題': ['購車基本考量', '全球市場及相關議題', '汽車時常討論議題', '購車菜單', '汽車買賣']
 }
 
-topic_df = pd.DataFrame(topic)
+topic_df = pd.DataFrame(topic, use_container_width=True)
 st.dataframe(topic_df)
 
 
@@ -62,7 +62,7 @@ def get_article(word):
     except KeyError:
         return []
 
-st.markdown('**● 可以在這邊搜尋特定關鍵字的文章**')
+st.markdown('**💡 可以在這邊搜尋特定關鍵字的文章**')
 
 word = st.text_input("請輸入關鍵字:")
 
