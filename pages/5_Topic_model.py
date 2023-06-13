@@ -40,7 +40,7 @@ topic = {
 }
 
 topic_df = pd.DataFrame(topic)
-st.dataframe(topic_df, use_container_width=True)
+st.dataframe(topic_df, use_container_width=True, hide_index=True)
 
 
 
@@ -79,4 +79,5 @@ if word:
                         "artContent": "文章內容",
                         "artUrl": "文章連結",
                     },
-                    hide_index=True,)
+                    use_container_width=True,
+                    hide_index=True)
