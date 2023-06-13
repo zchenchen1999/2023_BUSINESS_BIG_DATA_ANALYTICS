@@ -162,6 +162,7 @@ else:
                 "artContent": "文章內容",
             },
             hide_index=True,
+            use_container_width = True,
         )
 
     else:
@@ -223,4 +224,5 @@ else:
                     "artContent": "文章內容",
                 },
                 hide_index=True,
+                use_container_width = True,
             )
