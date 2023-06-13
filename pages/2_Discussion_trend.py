@@ -100,7 +100,7 @@ st.plotly_chart(fig, use_container_width = True)
 
 st.dataframe(
     df_select[["artTitle", "artDate", "artCatagory", "artContent", "Brand"]],
-    columns={
+    column_config = {
         "artTitle": "文章標題",
         "artDate": "發文日期",
         "artCatagory": "文章版面",
