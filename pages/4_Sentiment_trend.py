@@ -99,7 +99,7 @@ st.sidebar.title('選擇正負向文章類別')
 sentiment_list = ['positive', 'negative']
 selected_sentiment = st.sidebar.multiselect('選擇正向或負向類別', sentiment_list, default=['positive'])
 
-if (selected_brands and sentiment_list):
+if (len(selected_brands)>1 and len(sentiment_list)>1):
     # Filter dataframe based on selected sentimentRatio
     if 'positive' in selected_sentiment:
         df_filtered_sentiment_positive = df_select[df_select['sentimentRatio'] > 0.6]
