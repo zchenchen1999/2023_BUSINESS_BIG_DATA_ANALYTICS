@@ -10,22 +10,36 @@ from st_files_connection import FilesConnection
 import pandas as pd
 import plotly.express as px
 
+conn = st.experimental_connection('gcs', type=FilesConnection)
+
+@st.cache_data(persist=True)  # 👈 Add the caching decorator
+def load_data(url):
+    csv_data = conn.read(url, input_format="csv", ttl=None)
+    return csv_data
+    
+# 讀取品牌ptt資料
+nissan = load_data("big-data-class-2023/nissan_clean_data.csv")
+toyota = load_data("big-data-class-2023/toyota_clean_data.csv")
+ford = load_data("big-data-class-2023/ford_clean_data.csv")
+honda = load_data("big-data-class-2023/honda_clean_data.csv")
+mazda = load_data("big-data-class-2023/mazda_clean_data.csv")
+
 # 雲端連線
-try: 
-    conn = st.experimetal_connection('gcs', type=FilesConnection)
-    ford = conn.read("big-data-class-2023/ford_clean_data.csv", input_format="csv", ttl=600)
-    honda = conn.read("big-data-class-2023/honda_clean_data.csv", input_format="csv", ttl=600)
-    mazda = conn.read("big-data-class-2023/mazda_clean_data.csv", input_format="csv", ttl=600)
-    nissan = conn.read("big-data-class-2023/nissan_clean_data.csv", input_format="csv", ttl=600)
-    toyota = conn.read("big-data-class-2023/toyota_clean_data.csv", input_format="csv", ttl=600)
-# 本機讀取
-except:
-    ford = pd.read_csv('data/ford_clean_data.csv')
-    honda = pd.read_csv('data/honda_clean_data.csv')
-    mazda = pd.read_csv('data/mazda_clean_data.csv')
-    nissan = pd.read_csv('data/nissan_clean_data.csv')
-    toyota = pd.read_csv('data/toyota_clean_data.csv')
-    pass
+# try: 
+#     conn = st.experimetal_connection('gcs', type=FilesConnection)
+#     ford = conn.read("big-data-class-2023/ford_clean_data.csv", input_format="csv", ttl=600)
+#     honda = conn.read("big-data-class-2023/honda_clean_data.csv", input_format="csv", ttl=600)
+#     mazda = conn.read("big-data-class-2023/mazda_clean_data.csv", input_format="csv", ttl=600)
+#     nissan = conn.read("big-data-class-2023/nissan_clean_data.csv", input_format="csv", ttl=600)
+#     toyota = conn.read("big-data-class-2023/toyota_clean_data.csv", input_format="csv", ttl=600)
+# # 本機讀取
+# except:
+#     ford = pd.read_csv('data/ford_clean_data.csv')
+#     honda = pd.read_csv('data/honda_clean_data.csv')
+#     mazda = pd.read_csv('data/mazda_clean_data.csv')
+#     nissan = pd.read_csv('data/nissan_clean_data.csv')
+#     toyota = pd.read_csv('data/toyota_clean_data.csv')
+#     pass
 
 # 新增品牌欄位
 ford = ford.assign(Brand='Ford')
