@@ -47,24 +47,18 @@ elif optionFrequency == '週頻':
 # app: 給出對應資料  
 if optionName == 'Nissan':
   if optionFrequency == '月頻':
-    # data = pd.read_excel('../data/correlation/月頻total內外部資料.xlsx')
     data = load_data("big-data-class-2023/correlation/月頻total內外部資料.csv")
   elif optionFrequency == '週頻':
-    # data = pd.read_excel('../data/correlation/週頻total內外部資料.xlsx')
     data = load_data("big-data-class-2023/correlation/週頻total內外部資料.csv")
 if optionName == 'Kicks': 
   if optionFrequency == '月頻':
-    # data = pd.read_excel('../data/correlation/月頻kicks內外部資料.xlsx')
     data = load_data("big-data-class-2023/correlation/月頻kicks內外部資料.csv")
   elif optionFrequency == '週頻':
-    # data = pd.read_excel('../data/correlation/週頻kicks內外部資料.xlsx')
     data = load_data("big-data-class-2023/correlation/週頻kicks內外部資料.csv")
 if optionName == 'Sentra':
   if optionFrequency == '月頻':
-    # data = pd.read_excel('../data/correlation/月頻sentra內外部資料.xlsx')
     data = load_data("big-data-class-2023/correlation/月頻sentra內外部資料.csv")
   elif optionFrequency == '週頻':
-    # data = pd.read_excel('../data/correlation/週頻sentra內外部資料.xlsx')
     data = load_data("big-data-class-2023/correlation/週頻sentra內外部資料.csv")
 
 
@@ -80,14 +74,26 @@ elif optionFrequency == '週頻':
   default_value = 202305
 
 # app: sidebar
-optionStartTime = st.sidebar.selectbox(
-    '起始時間',
-    data[[date_int]])
-optionEndTime = st.sidebar.selectbox(
-    '結束時間',
-    data[[date_int]],
-    index=data[date_int].tolist().index(default_value))
+if optionFrequency == '月頻':
+  optionStartTime = st.sidebar.selectbox(
+      '起始時間(月)',
+      data[[date_int]])
+  optionEndTime = st.sidebar.selectbox(
+      '結束時間(月)',
+      data[[date_int]],
+      index=data[date_int].tolist().index(default_value))
+elif optionFrequency == '週頻':
+  optionStartTime = st.sidebar.selectbox(
+      '起始時間(週)',
+      data[[date_int]])
+  optionEndTime = st.sidebar.selectbox(
+      '結束時間(週)',
+      data[[date_int]],
+      index=data[date_int].tolist().index(default_value))
 
+# 防呆機制：結束月份不能選擇比起始月份還前面的日期
+if optionStartTime < optionStartTime:
+    st.sidebar.error("結束月份不能早於起始月份")
 
 # 給出對應的表格
 raw_chart_data = pd.DataFrame(data[[date, optionVariable, *optionCor, date_int]])
