@@ -6,13 +6,6 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from st_files_connection import FilesConnection
 
-conn = st.experimental_connection('gcs', type=FilesConnection)
-
-@st.cache_data(persist=True)  # 👈 Add the caching decorator
-def load_data(url):
-    csv_data = conn.read(url, input_format="csv", ttl=None)
-    return csv_data
-
 # title
 st.title("Nissan 內外部相關性分析")
 
