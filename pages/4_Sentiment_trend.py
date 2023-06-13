@@ -98,9 +98,25 @@ st.plotly_chart(fig)
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+from st_files_connection import FilesConnection
 
 # 預設顯示 wide mode
 st.set_page_config(layout="wide")
+
+# # 雲端讀取檔案
+# conn = st.experimental_connection('gcs', type=FilesConnection)
+
+# @st.cache_data(persist=True)  # 👈 Add the caching decorator
+# def load_data(url):
+#     csv_data = conn.read(url, input_format="csv", ttl=None)
+#     return csv_data
+    
+# # 讀取品牌ptt資料
+# nissan = load_data("big-data-class-2023/nissan_clean_data.csv")
+# toyota = load_data("big-data-class-2023/toyota_clean_data.csv")
+# ford = load_data("big-data-class-2023/ford_clean_data.csv")
+# honda = load_data("big-data-class-2023/honda_clean_data.csv")
+# mazda = load_data("big-data-class-2023/mazda_clean_data.csv")
 
 #讀取品牌ptt資料
 ford = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/ford_clean_data.csv')
@@ -196,30 +212,57 @@ brand_sentiment_count_negative = df_filtered_sentiment_negative.groupby(['Brand'
 
 # Merge positive and negative counts
 brand_sentiment_count_merged = pd.merge(brand_sentiment_count_positive, brand_sentiment_count_negative, on=['Brand', 'artDate'], how='outer').fillna(0)
+# # Pivot the table to have sentimentRatio as columns
+# brand_sentiment_count_pivot = brand_sentiment_count_merged.pivot_table(index='artDate',
+#                                                                       columns='Brand',
+#                                                                       values='count',
+#                                                                       fill_value=0)
 
-# Pivot the table to have sentimentRatio as columns
-brand_sentiment_count_pivot = brand_sentiment_count_merged.pivot_table(index='artDate',
-                                                                      columns='Brand',
-                                                                      values='count',
-                                                                      fill_value=0)
+# # Plot line chart
+# fig = px.line(brand_sentiment_count_pivot, x=brand_sentiment_count_pivot.index, y=selected_sentiment,
+#               color_discrete_map={"positive": "green", "negative": "red"},
+#               title="品牌情緒趨勢")
+# fig = px.line(brand_sentiment_count_merged, x="artDate", y=selected_sentiment,
+#               color_discrete_map={"positive": "green", "negative": "red"},
+#               title="品牌情緒趨勢")
 
-# Plot line chart
-fig = px.line(brand_sentiment_count_pivot, x=brand_sentiment_count_pivot.index, y=selected_sentiment,
-              color_discrete_map={"positive": "green", "negative": "red"},
-              title="品牌情緒趨勢")
+# fig.update_layout(
+#     xaxis_title="月份",
+#     yaxis_title="文章數量",
+#     title="品牌情緒趨勢"
+# )
 
-fig.update_layout(
-    xaxis_title="月份",
-    yaxis_title="文章數量",
-    title="品牌情緒趨勢"
-)
+# st.plotly_chart(fig)
 
-st.plotly_chart(fig)
+# fig.update_layout(
+#     xaxis_title="月份",
+#     yaxis_title="文章數量",
+#     title="品牌情緒趨勢"
+# )
+# st.plotly_chart(fig)
 
-fig.update_layout(
-    xaxis_title="月份",
-    yaxis_title="文章數量",
-    title="品牌情緒趨勢"
-)
-st.plotly_chart(fig)
 
+
+brand_sentiment_count_merged.rename(columns = {'positive_count':'positive', 'negative_count':'negative'}, inplace = True)
+brand_sentiment_melt = pd.melt(brand_sentiment_count_merged, id_vars=['Brand', 'artDate'], value_vars=['positive', 'negative'])
+
+
+# 以情緒為主 => 查看品牌
+st.subheader("不同品牌間情緒比較")
+sentiment_tabs = st.tabs(sentiment_list)
+for i in range (len(sentiment_tabs)):
+    tmp_df = brand_sentiment_melt[brand_sentiment_melt['variable'] == sentiment_list[i]]
+    fig = px.line(tmp_df, x="artDate", y="value", color="Brand",title=sentiment_list[i])
+    sentiment_tabs[i].plotly_chart(fig, use_container_width=True)
+
+st.sidebar.divider()
+# 以品牌為主 => 查看正向情緒與負向情緒
+st.subheader("品牌正負情緒比較")
+brand_tabs = st.tabs(selected_brands)
+for i in range (len(brand_tabs)):
+    # 篩選品牌
+    tmp_df = brand_sentiment_melt[brand_sentiment_melt['Brand'] == selected_brands[i]]
+    fig = px.line(tmp_df, x="artDate", y="value", color="variable",title=selected_brands[i])
+            #   color_discrete_map={"positive": "green", "negative": "red"},
+    brand_tabs[i].plotly_chart(fig, use_container_width=True)
+    brand_tabs[i].dataframe(brand_sentiment_count_merged[brand_sentiment_count_merged['Brand'] == selected_brands[i]], use_container_width=True)
