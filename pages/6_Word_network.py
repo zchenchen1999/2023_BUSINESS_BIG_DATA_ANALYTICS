@@ -24,7 +24,7 @@ selected_brand = st.sidebar.selectbox('選擇廠牌', brand_list)
 corr_values = st.sidebar.slider('選擇關聯度區間', 0.0, 1.0, (0.9, 1.0))
 st.sidebar.write('關聯度:', corr_values)
 
-st.danger('以字詞頻率最高的「前100個」關鍵字進行分析')
+st.warning('以字詞頻率最高的「前100個」關鍵字進行分析')
 
 st.markdown('##### 字詞網路圖說明: ')
 st.text(' ● 可以放大縮小、點擊節點進行拖拉')
