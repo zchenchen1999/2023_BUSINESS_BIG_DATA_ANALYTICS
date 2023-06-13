@@ -90,6 +90,10 @@ selected_ending_month = st.sidebar.selectbox(
     month_options, index=len(month_options)-1   # 設定預設選項為索引最大值，即 2023-1
 )
 
+# 防呆機制：結束月份不能選擇比起始月份還前面的日期
+if selected_ending_date < selected_beginning_date:
+    st.sidebar.error("結束月份不能早於起始月份")
+
 # 將選擇的月份轉換為 datetime 格式
 selected_beginning_date = pd.to_datetime(selected_beginning_month, format='%Y-%m')
 selected_ending_date = pd.to_datetime(selected_ending_month, format='%Y-%m')
@@ -109,6 +113,16 @@ fig.update_layout(
     yaxis_title="網路聲量",
     title="品牌網路聲量趨勢"
 )
-st.plotly_chart(fig)
+st.plotly_chart(fig, use_container_width = True)
 
-st.dataframe(df_select)
+st.dataframe(
+    df_select[["artTitle", "artDate", "artCatagory", "artContent"]],
+    column_config={
+        "artTitle": "文章標題",
+        "artDate": "發文日期",
+        "artCatagory": "文章版面",
+        "artContent": "文章內容",
+        "Brand":"品牌",
+    },
+    hide_index=True,
+    )
