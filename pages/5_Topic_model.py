@@ -14,8 +14,8 @@ st.title("Nissan PTT 討論主題分析")
 
 
 # 主題模型 html 讀取
-message = '主題模型閱讀說明: <br> ● 左邊的圓圈代表不同的主題，圓圈大小代表該主題的討論量 <br> ● 右邊藍色的長條圖代表 PTT 中提到該詞彙的總次數 <br> ● 右邊紅色的長條圖比例越高代表該詞彙越集中在當前的主題中'
-st.info(message, unsafe_allow_html=True)
+message = '主題模型閱讀說明: \n● 左邊的圓圈代表不同的主題，圓圈大小代表該主題的討論量 \n● 右邊藍色的長條圖代表 PTT 中提到該詞彙的總次數 \n● 右邊紅色的長條圖比例越高代表該詞彙越集中在當前的主題中'
+st.info(message)
 
 path = './html_files/nissan_lda.html'
 with open(path, 'r') as f :
