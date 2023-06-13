@@ -13,7 +13,7 @@ from st_files_connection import FilesConnection
 st.set_page_config(layout="wide")
 
 # title
-st.title("廠牌字詞網路圖")
+st.title("字詞網路圖")
 
 
 st.sidebar.header('參數調整')
@@ -29,7 +29,10 @@ selected_brand = st.sidebar.selectbox('選擇品牌', brand_list)
 corr_values = st.sidebar.slider('選擇關聯度區間', 0.0, 1.0, (0.9, 1.0))
 st.sidebar.write('關聯度:', corr_values)
 
-
+st.markdown('##### 字詞網路圖說明: ')
+st.text(' ● 可以放大縮小、點擊節點進行拖拉')
+st.text(' ● 連接節點的線越粗代表關聯度越高')
+st.text(' ● 當關聯度區間較大時，需要一點時間等待圖的生成，請耐心等候不要一直調整參數')
 
 # ---------------------------------------------------------- Load Data ----------------------------------------------------------#
 
