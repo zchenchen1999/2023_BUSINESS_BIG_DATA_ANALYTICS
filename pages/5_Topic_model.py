@@ -1,11 +1,19 @@
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
-# from st_files_connection import FilesConnection
+from st_files_connection import FilesConnection
 
 # 負責人：畇彤
 
-# 主題結果 dataframe 之建立
+
+# 預設顯示 wide mode
+st.set_page_config(layout="wide")
+
+# title
+st.title("主題模型")
+
+
+# 主題描述 dataframe
 topic = {
     '': ['Topic1', 'Topic2', 'Topic3', 'Topic4', 'Topic5'],
     '主題關鍵字': ['業務、預算、空間、價格、不錯、隔音、安全、試乘、後座', 
@@ -17,17 +25,36 @@ topic = {
 }
 
 topic_df = pd.DataFrame(topic)
-
-# ---------------------------------------------------------- Streamlit ----------------------------------------------------------#
-
-# 預設顯示 wide mode
-st.set_page_config(layout="wide")
-
-# title
-st.title("主題模型")
-
 st.dataframe(topic_df)
-# st.sidebar.header('')
+
+# 關鍵字查詢
+conn = st.experimental_connection('gcs', type=FilesConnection)
+
+@st.cache_data(persist=True)  # 👈 Add the caching decorator
+def load_data(url):
+    csv_data = conn.read(url, input_format="csv", ttl=None)
+    return csv_data
+nissan = load_data("big-data-class-2023/nissan_clean_data.csv")
+
+## 定義文章查找 function
+def get_article(word):
+    try:
+        findword = nissan.loc[nissan['words'].str.contains(word)]
+        findword = findword[['system_id', 'artUrl', 'artTitle', 'artDate', 'artCatagory', 'artContent']]
+        return findword
+    except KeyError:
+        return []
+
+word = st.text_input("請輸入想要查找的關鍵字:")
+if word:
+    relative_art = get_article(word)
+    if relative_art:
+        st.dataframe(relative_art)
+    else:
+        st.write("沒有找到相關文章.")
+
+
+# 主題模型 html 讀取
 path = './html_files/nissan_lda.html'
 with open(path, 'r') as f :
     HtmlFile = f.read()
