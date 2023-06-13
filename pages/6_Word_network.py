@@ -24,7 +24,7 @@ selected_brand = st.sidebar.selectbox('選擇廠牌', brand_list)
 corr_values = st.sidebar.slider('選擇關聯度區間', 0.0, 1.0, (0.9, 1.0))
 st.sidebar.write('關聯度:', corr_values)
 
-st.warning('以字詞頻率最高的「前100個」關鍵字進行分析')
+st.info('以字詞頻率最高的「前100個」關鍵字進行分析')
 
 st.markdown('##### 字詞網路圖說明: ')
 st.text(' ● 可以放大縮小、點擊節點進行拖拉')
@@ -53,7 +53,7 @@ df = df[df['item1'] != df['item2']]
 # 節點數量
 all_nodes = pd.unique(df[['item1', 'item2']].values.ravel())
 st.sidebar.write('節點數量:', len(all_nodes))
-st.sidebar.write('提醒 : 節點數越多生成圖的時間越長，請耐心等待~')
+st.sidebar.text('提醒 : 節點數越多生成圖的時間越長，請耐心等待~')
 
 # -------------------------------------------------------- Pyvis ----------------------------------------------------------#
 Cor_Graph = {}
