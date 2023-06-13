@@ -61,7 +61,9 @@ def get_article(word):
     except KeyError:
         return []
 
-word = st.text_input("請輸入想要查找的關鍵字:")
+st.text('**可以在這邊搜尋特定關鍵字的文章**')
+
+word = st.text_input("請輸入關鍵字:")
 
 if word:
     relative_art = get_article(word)
