@@ -92,7 +92,7 @@ else:
 
     if select_chart == '有望客來店數':
 
-        cust_list = ['來店數', '來店數X性別', '來店數X初始分級']
+        cust_list = ['來店數', '來店數X性別', '來店數X初始分級', '來店數X經銷商']
         default_index1 = cust_list.index("來店數")
         select_comp = st.selectbox('選擇圖表', cust_list, index=default_index1)
 
@@ -137,11 +137,25 @@ else:
                 title="各初始分級來客數趨勢"
             )
             st.plotly_chart(fig, use_container_width = True)
+
+        elif select_comp == '來店數X經銷商':
+
+            # Group by brand & artDate, then calculate total volume
+            customer = df_select.groupby(['DEALERCODE',df_select['建檔日'].dt.to_period('M').astype(str)])['有望客ID'].count().reset_index()
+
+            # Plot line chart
+            fig = px.line(customer, x="建檔日", y="有望客ID", color='DEALERCODE')
+            fig.update_layout(
+                xaxis_title="月份",
+                yaxis_title="來客數",
+                title="各經銷商來客數趨勢"
+            )
+            st.plotly_chart(fig, use_container_width = True)
         
 
     elif select_chart == '有望客年齡':
 
-        age_list = ['年齡', '年齡X性別', '年齡X初始分級']
+        age_list = ['年齡', '年齡X性別', '年齡X初始分級', '年齡X經銷商']
         default_index2 = age_list.index("年齡")
         select_comp = st.selectbox('選擇圖表', age_list, index=default_index2)
 
@@ -187,6 +201,20 @@ else:
             )
             st.plotly_chart(fig, use_container_width = True)
 
+        elif select_comp == '年齡X經銷商':
+
+            # Group by brand & artDate, then calculate total volume
+            customer = df_select.groupby(['DEALERCODE',df_select['建檔日'].dt.to_period('M').astype(str)])['年齡'].mean().reset_index()
+
+            # Plot line chart
+            fig = px.line(customer, x="建檔日", y="年齡", color='DEALERCODE')
+            fig.update_layout(
+                xaxis_title="月份",
+                yaxis_title="平均年齡",
+                title="各經銷商有望客年齡趨勢"
+            )
+
+
 
     elif select_chart == '成交車系':
 
@@ -208,7 +236,7 @@ else:
     elif select_chart == '試乘車輛數':
 
         # Group by brand & artDate, then calculate total volume
-        car_list = ['試乘車輛數', '試乘車輛數X性別', '試乘車輛數X初始分級']
+        car_list = ['試乘車輛數', '試乘車輛數X性別', '試乘車輛數X初始分級', '試乘車輛數X經銷商']
         default_index3 = car_list.index("試乘車輛數")
         select_comp = st.selectbox('選擇圖表', car_list, index=default_index3)
 
@@ -251,5 +279,19 @@ else:
                 xaxis_title="月份",
                 yaxis_title="試乘車輛數",
                 title="各初始分級有望客試乘車輛數趨勢"
+            )
+            st.plotly_chart(fig, use_container_width = True)
+
+        elif select_comp == '試乘車輛數X經銷商':
+
+            # Group by brand & artDate, then calculate total volume
+            customer = df_select.groupby(['DEALERCODE',df_select['建檔日'].dt.to_period('M').astype(str)])['試乘車輛'].sum().reset_index()
+
+            # Plot line chart
+            fig = px.line(customer, x="建檔日", y="試乘車輛", color='DEALERCODE')
+            fig.update_layout(
+                xaxis_title="月份",
+                yaxis_title="試乘車輛數",
+                title="各經銷商有望客試乘車輛數趨勢"
             )
             st.plotly_chart(fig, use_container_width = True)
