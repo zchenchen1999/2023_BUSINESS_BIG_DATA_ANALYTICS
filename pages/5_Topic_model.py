@@ -10,11 +10,24 @@ from st_files_connection import FilesConnection
 st.set_page_config(layout="wide")
 
 # title
-st.title("主題模型")
+st.title("Nissan PTT 討論主題分析")
+
+
+# 主題模型 html 讀取
+
+st.write('主題模型閱讀說明: ')
+st.write('● 左邊的圓圈代表不同的主題，圓圈大小代表該主題的討論量')
+st.write('● 右邊藍色的長條圖代表 PTT 中提到該詞彙的總次數')
+st.write('● 右邊紅色的長條圖比例越高代表該詞彙越集中在當前的主題中')
+
+path = './html_files/nissan_lda.html'
+with open(path, 'r') as f :
+    HtmlFile = f.read()
+components.html(HtmlFile, height=900, scrolling=True)
 
 
 # 主題模型描述 dataframe
-st.header('主題模型描述')
+st.subheader('主題模型結果說明')
 topic = {
     '': ['Topic1', 'Topic2', 'Topic3', 'Topic4', 'Topic5'],
     '主題關鍵字': ['業務、預算、空間、價格、不錯、隔音、安全、試乘、後座', 
@@ -27,18 +40,6 @@ topic = {
 
 topic_df = pd.DataFrame(topic)
 st.dataframe(topic_df)
-
-
-
-# 主題模型 html 讀取
-
-st.write('主題模型閱讀說明: ')
-st.write('● · 左邊的圓圈代表不同的主題，圓圈大小代表該主題的討論量')
-path = './html_files/nissan_lda.html'
-with open(path, 'r') as f :
-    HtmlFile = f.read()
-components.html(HtmlFile, height=900, scrolling=True)
-
 
 
 
