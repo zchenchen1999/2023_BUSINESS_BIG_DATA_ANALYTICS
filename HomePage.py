@@ -54,15 +54,18 @@ st.dataframe(internal)
 # # 顯示外部資料
 st.markdown(
     f""" ### 外部資料:
-    - 資料來源 : PTT 汽車版、汽車買賣版
+    - 資料取得方式 : PTT 爬蟲
+    - 資料來源 : 汽車版、汽車買賣版
     - 資料區間：2020/12/01 ~ 2023/01/31
 
-    | 廠牌 | 關鍵字 | 資料總筆數 | 清理後筆數 |
+    | 廠牌 | 爬蟲關鍵字 | 資料總筆數 | 清理後筆數 |
     | --- | --- | --- | --- |
-    | mazda | mazda、裕隆、裕日,日產、Sentra、Kicks、仙草 | 2,464 | 2,079 |
-    | mazda | mazda、Altis、Cross、豐田、和泰、阿提斯、卡羅拉 | 8,755 | 7,420 |
-    | mazda | 福特、六和、九和、上正、mazda、Focus | 4,684 | 4,011 |
-    | mazda | mazda、HRV、本田 | 2,488 | 2,171 |
-    | mazda | mazda、CX-3、CX-30、馬三、mazda 3 | 3,321 | 2,787 |
+    | Nissan | Nissan、裕隆、裕日,日產、Sentra、Kicks、仙草 | 2,464 | 2,079 |
+    | Toyota | Toyota、Altis、Cross、豐田、和泰、阿提斯、卡羅拉 | 8,755 | 7,420 |
+    | Ford | 福特、六和、九和、上正、ford、Focus | 4,684 | 4,011 |
+    | Honda | honda、HRV、本田 | 2,488 | 2,171 |
+    | Mazda | mazda、CX-3、CX-30、馬三、mazda 3 | 3,321 | 2,787 |
+
+    `清理之定義為清除有空值的資料`
     """, unsafe_allow_html=True)
 # show_ptt_data()
