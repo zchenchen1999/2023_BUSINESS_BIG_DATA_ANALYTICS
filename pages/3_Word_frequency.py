@@ -151,7 +151,7 @@ else:
         )
         st.plotly_chart(fig, use_container_width = True)
 
-        st.markdown('資料表')
+        st.markdown('**資料表**')
 
         st.dataframe(
             df_select[["artTitle", "artDate", "artCatagory", "artContent"]],
