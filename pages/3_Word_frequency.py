@@ -62,7 +62,7 @@ selected_brands = st.sidebar.multiselect('選擇品牌', brand_list, default=['N
 # st.sidebar.divider()  # 分隔線
 
 # 選擇月份
-st.sidebar.title('選擇月份區間')
+# st.sidebar.title('選擇月份區間')
 st.sidebar.caption('有效月份範圍：2020-12 - 2023-01')
 
 # 取得所有的月份選項
@@ -123,8 +123,8 @@ else:
 
     # 選擇要篩選含有哪個詞的文章
     default_index = voc.index("未選擇")
-    st.sidebar.divider()
-    st.sidebar.subheader('斷詞篩選')
+    # st.sidebar.divider()
+    # st.sidebar.subheader('斷詞篩選')
     select_voc = st.sidebar.selectbox('選擇斷詞', voc, index=default_index)
 
     if select_voc == '未選擇':
