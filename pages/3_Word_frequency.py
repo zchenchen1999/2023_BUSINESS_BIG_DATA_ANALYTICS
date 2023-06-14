@@ -49,7 +49,7 @@ df_interact['artDate'] = pd.to_datetime(df_interact['artDate'],format='%Y-%m-%d'
 # st.title('時間區間品牌網路詞頻計算')
 # title
 st.title("詞頻分析/文字雲")
-st.markdown('文字雲')
+st.markdown('**文字雲**')
 
 # Define list of selection options and sort alphabetically
 brand_list = ['Nissan', 'Toyota', 'Ford', 'Honda', 'Mazda']
@@ -213,7 +213,7 @@ else:
             )
             st.plotly_chart(fig, use_container_width = True)
 
-            st.markdown('資料表')
+            st.markdown('**資料表**')
 
             st.dataframe(
                 df_select2[["artTitle", "artDate", "artCatagory", "artContent"]],
