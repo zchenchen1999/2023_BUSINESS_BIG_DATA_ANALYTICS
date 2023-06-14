@@ -116,9 +116,18 @@ if (selected_brands and selected_sentiment):
 
     brand_sentiment_count_negative = df_filtered_sentiment_negative.groupby(['Brand', pd.Grouper(key='artDate', freq='M', sort=False)])['Brand'].count().reset_index(name='count').rename(columns={'count': 'negative_count'})
 
+    # Calculate total count for each brand and date
+    brand_total_count = df_select.groupby(['Brand', pd.Grouper(key='artDate', freq='M', sort=False)])['Brand'].count().reset_index(name='total_count')
 
     # Merge positive and negative counts
     brand_sentiment_count_merged = pd.merge(brand_sentiment_count_positive, brand_sentiment_count_negative, on=['Brand', 'artDate'], how='outer').fillna(0)
+    # # Merge positive and negative counts with total count
+    # brand_sentiment_ratio = pd.merge(brand_sentiment_count_merged, brand_total_count, on=['Brand', 'artDate'], how='left')
+    # # Calculate sentiment ratio
+    # brand_sentiment_ratio['positive_ratio'] = brand_sentiment_ratio['positive_count'] / brand_sentiment_ratio['total_count']
+    # brand_sentiment_ratio['negative_ratio'] = brand_sentiment_ratio['negative_count'] / brand_sentiment_ratio['total_count']
+
+   
     # # Pivot the table to have sentimentRatio as columns
     # brand_sentiment_count_pivot = brand_sentiment_count_merged.pivot_table(index='artDate',
     #                                                                       columns='Brand',
@@ -152,6 +161,8 @@ if (selected_brands and selected_sentiment):
 
     brand_sentiment_count_merged.rename(columns = {'positive_count':'正向', 'negative_count':'負向'}, inplace = True)
     brand_sentiment_melt = pd.melt(brand_sentiment_count_merged, id_vars=['Brand', 'artDate'], value_vars=['正向', '負向'])
+    # # Melt the dataframe for plotting
+    # brand_sentiment_melt_ratio = pd.melt(brand_sentiment_ratio, id_vars=['Brand', 'artDate'], value_vars=['positive_ratio', 'negative_ratio'])
 
 
     # 以情緒為主 => 查看品牌
@@ -159,6 +170,7 @@ if (selected_brands and selected_sentiment):
     sentiment_tabs = st.tabs(sentiment_list)
     for i in range (len(sentiment_tabs)):
         tmp_df = brand_sentiment_melt[brand_sentiment_melt['variable'] == sentiment_list[i]]
+        #tmp_df = brand_sentiment_melt_ratio[brand_sentiment_melt_ratio['variable'] == sentiment_list[i]]
         fig = px.line(tmp_df, x="artDate", y="value", color="Brand",title=sentiment_list[i])
         fig.update_layout(
             xaxis_title="月份",
