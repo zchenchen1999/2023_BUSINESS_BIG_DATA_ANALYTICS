@@ -105,7 +105,7 @@ else:
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="有望客ID")
-            st.markdown('#### 來客數趨勢')
+            st.markdown('#### 有望客來店數趨勢')
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="來客數",
@@ -119,7 +119,7 @@ else:
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="有望客ID", color='性別')
-            st.markdown('#### 各性別來客數趨勢')
+            st.markdown('#### 有望客來店數趨勢 - 性別')
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="來客數"
@@ -133,7 +133,7 @@ else:
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="有望客ID", color='初始分級')
-            st.markdown('#### 各初始分級來客數趨勢')
+            st.markdown('#### 有望客來店數趨勢 - 初始分級')
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="來客數"
@@ -147,7 +147,7 @@ else:
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="有望客ID", color='DEALERCODE')
-            st.markdown('#### 各經銷商來客數趨勢')
+            st.markdown('#### 有望客來店數趨勢 - 經銷商')
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="來客數"
@@ -182,7 +182,7 @@ else:
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="年齡", color='性別')
-            st.markdown('#### 各性別有望客年齡趨勢')
+            st.markdown('#### 有望客年齡趨勢 - 性別')
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="平均年齡"
@@ -196,7 +196,7 @@ else:
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="年齡", color='初始分級')
-            st.markdown('#### 各初始分級有望客年齡趨勢')
+            st.markdown('#### 有望客年齡趨勢 - 初始分級')
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="平均年齡"
@@ -210,7 +210,7 @@ else:
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="年齡", color='DEALERCODE')
-            st.markdown('#### 各經銷商有望客年齡趨勢')
+            st.markdown('#### 有望客年齡趨勢 - 經銷商')
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="平均年齡"
@@ -264,7 +264,7 @@ else:
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="試乘車輛", color='性別')
-            st.markdown('#### 各性別有望客試乘車輛數趨勢')
+            st.markdown('#### 有望客試乘車輛數趨勢 - 性別')
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="試乘車輛數"
@@ -278,7 +278,7 @@ else:
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="試乘車輛", color='初始分級')
-            st.markdown('#### 各初始分級有望客試乘車輛數趨勢')
+            st.markdown('#### 有望客試乘車輛數趨勢 - 初始分級')
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="試乘車輛數"
@@ -292,7 +292,7 @@ else:
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="試乘車輛", color='DEALERCODE')
-            st.markdown('#### 各經銷商有望客試乘車輛數趨勢')
+            st.markdown('#### 有望客試乘車輛數趨勢 - 經銷商')
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="試乘車輛數"
