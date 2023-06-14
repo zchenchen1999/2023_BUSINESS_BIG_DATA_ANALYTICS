@@ -9,7 +9,7 @@ from st_files_connection import FilesConnection
 
 
 # 預設顯示 wide mode
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide", page_icon="📈")
 
 # title
 st.title("字詞網路圖")

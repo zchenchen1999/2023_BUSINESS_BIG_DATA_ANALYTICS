@@ -6,6 +6,9 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from st_files_connection import FilesConnection
 
+# 預設顯示 wide mode
+st.set_page_config(layout="wide", page_icon="📈")
+
 # 設定資料連結
 conn = st.experimental_connection('gcs', type=FilesConnection)
 
