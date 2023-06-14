@@ -45,7 +45,7 @@ brand_list = ['Nissan', 'Toyota', 'Ford', 'Honda', 'Mazda']
 brand_list.sort()
 
 # Implement multiselect dropdown menu for option selection (returns a list)
-st.sidebar.title('選擇品牌')
+st.sidebar.subheader('參數調整')
 selected_brands = st.sidebar.multiselect('選擇品牌', brand_list, default=['Nissan'])
 
 st.sidebar.divider()  # 分隔線

@@ -32,7 +32,7 @@ df_interact['試乘日'] = pd.to_datetime(df_interact['試乘日'],format='%Y-%m
 df_interact['交車日'] = pd.to_datetime(df_interact['交車日'],format='%Y-%m-%d')
 
 # Set header title
-st.title("Nissan 內部資料統計")
+st.sidebar.subheader('參數調整')
 # st.markdown('文字雲')
 
 # Define list of selection options and sort alphabetically
@@ -42,17 +42,17 @@ dealer_list = ['YK', 'ES', 'UL', 'YJ', 'YF', 'EM', 'HL', 'KT', 'YA', 'UT', 'LA']
 
 default_index = chart_list.index("有望客來店數")
 # Implement multiselect dropdown menu for option selection (returns a list)
-st.sidebar.title('選擇視覺化圖表')
+# st.sidebar.title('選擇視覺化圖表')
 select_chart = st.sidebar.selectbox('選擇圖表', chart_list, index=default_index)
 # selected_brands = st.sidebar.multiselect('選擇品牌', brand_list, default=['Nissan'])
 
-st.sidebar.title('選擇經銷商')
+# st.sidebar.title('選擇經銷商')
 select_dealer = st.sidebar.multiselect('選擇經銷商', dealer_list, default=dealer_list)
 
 # st.sidebar.divider()  # 分隔線
 
 # 選擇月份
-st.sidebar.title('選擇月份區間')
+# st.sidebar.title('選擇月份區間')
 st.sidebar.caption('有效月份範圍：2021-01 - 2023-01')
 
 # 取得所有的月份選項
@@ -95,6 +95,7 @@ else:
 
         cust_list = ['來店數', '來店數X性別', '來店數X初始分級', '來店數X經銷商']
         default_index1 = cust_list.index("來店數")
+        st.markdown('#### 請選擇要查看的圖表')
         select_comp = st.selectbox('選擇圖表', cust_list, index=default_index1)
 
         if select_comp == '來店數':

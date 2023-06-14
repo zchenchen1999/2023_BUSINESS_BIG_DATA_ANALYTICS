@@ -13,7 +13,7 @@ st.set_page_config(page_title="品牌字詞網路圖", layout="wide", page_icon=
 
 # title
 st.title("品牌字詞網路圖")
-st.sidebar.header('參數調整')
+st.sidebar.subheader('參數調整')
 
 ## 品牌選擇
 brand_list = ['nissan', 'toyota', 'ford', 'honda', 'mazda']

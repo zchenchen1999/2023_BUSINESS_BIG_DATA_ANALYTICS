@@ -56,7 +56,7 @@ brand_list = ['Nissan', 'Toyota', 'Ford', 'Honda', 'Mazda']
 brand_list.sort()
 
 # Implement multiselect dropdown menu for option selection (returns a list)
-st.sidebar.title('選擇品牌')
+st.sidebar.subheader('參數調整')
 selected_brands = st.sidebar.multiselect('選擇品牌', brand_list, default=['Nissan'])
 
 # st.sidebar.divider()  # 分隔線
@@ -124,7 +124,7 @@ else:
     # 選擇要篩選含有哪個詞的文章
     default_index = voc.index("未選擇")
     st.sidebar.divider()
-    st.sidebar.title('斷詞篩選')
+    st.sidebar.subheader('斷詞篩選')
     select_voc = st.sidebar.selectbox('選擇斷詞', voc, index=default_index)
 
     if select_voc == '未選擇':
