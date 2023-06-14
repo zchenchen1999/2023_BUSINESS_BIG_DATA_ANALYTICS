@@ -26,10 +26,12 @@ st.sidebar.write('關聯度:', corr_values)
 
 st.info('以字詞頻率最高的「前100個」關鍵字進行分析')
 
-st.markdown('##### 網路圖說明: ')
-st.text(' ● 可以放大縮小、點擊節點進行拖拉')
-st.text(' ● 連接節點的線越粗代表關聯度越高')
 
+st.markdown(
+    f"""##### 網路圖說明: 
+    - 可以放大縮小、點擊節點進行拖拉
+    - 連接節點的線越粗代表關聯度越高
+    """)
 
 # 資料載入
 conn = st.experimental_connection('gcs', type=FilesConnection)
