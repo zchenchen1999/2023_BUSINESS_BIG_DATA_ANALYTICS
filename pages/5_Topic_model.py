@@ -82,3 +82,4 @@ if word:
                     },
                     use_container_width=True,
                     hide_index=True)
+        st.write('關鍵字', word,'共找到 ',len(relative_art), ' 篇文章')
