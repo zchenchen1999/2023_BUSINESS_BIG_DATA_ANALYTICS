@@ -55,10 +55,8 @@ brand_list.sort()
 st.sidebar.subheader('參數調整')
 selected_brands = st.sidebar.multiselect('選擇品牌', brand_list, default=['Nissan'])
 
-st.sidebar.divider()  # 分隔線
 
 # 選擇月份
-st.sidebar.title('選擇月份區間')
 st.sidebar.caption('有效月份範圍：2020-12 - 2023-01')
 
 # 取得所有的月份選項
@@ -92,12 +90,11 @@ df_select = df_interact.loc[(df_interact['Brand'].isin(list(selected_brands))) &
                             (df_interact['artDate'].dt.to_period('M') >= selected_beginning_date.to_period('M')) &
                             (df_interact['artDate'].dt.to_period('M') <= selected_ending_date.to_period('M'))]
 
-st.sidebar.divider() #分隔線
+
 
 # 選擇正負向文章
-st.sidebar.title('選擇正負向文章類別')
 sentiment_list = ['positive', 'negative']
-selected_sentiment = st.sidebar.multiselect('選擇正向或負向類別', sentiment_list, default=['positive'])
+selected_sentiment = st.sidebar.multiselect('選擇文章情緒類別', sentiment_list, default=['positive'])
 
 if (selected_brands and selected_sentiment):
     # Filter dataframe based on selected sentimentRatio
