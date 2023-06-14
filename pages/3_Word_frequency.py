@@ -14,7 +14,7 @@ from ast import literal_eval
 from st_files_connection import FilesConnection
 
 # 預設顯示 wide mode
-st.set_page_config(layout="wide", page_icon="📈")
+st.set_page_config(page_title="詞頻分析/文字雲", layout="wide", page_icon="📈")
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 # 設定資料連結

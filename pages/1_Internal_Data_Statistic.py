@@ -4,7 +4,7 @@ import plotly.express as px
 from st_files_connection import FilesConnection
 
 # 預設顯示 wide mode
-st.set_page_config(layout="wide", page_icon="📈")
+st.set_page_config(page_title="內部資料統計分析", layout="wide", page_icon="📈")
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 # 負責人：祐陞

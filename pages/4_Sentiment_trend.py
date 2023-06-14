@@ -6,7 +6,7 @@ import plotly.express as px
 from st_files_connection import FilesConnection
 
 # 預設顯示 wide mode
-st.set_page_config(layout="wide", page_icon="📈")
+st.set_page_config(page_title="品牌網路情緒趨勢", layout="wide", page_icon="📈")
 
 # 雲端讀取檔案
 conn = st.experimental_connection('gcs', type=FilesConnection)

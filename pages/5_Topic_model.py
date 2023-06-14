@@ -7,7 +7,7 @@ from st_files_connection import FilesConnection
 
 
 # 預設顯示 wide mode
-st.set_page_config(layout="wide", page_icon="📈")
+st.set_page_config(page_title="Nissan PTT 討論主題分析", layout="wide", page_icon="📈")
 # st.set_option('dataframe.fit_columns_to_available_width', True)
 
 # title

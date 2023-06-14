@@ -9,10 +9,10 @@ from st_files_connection import FilesConnection
 
 
 # 預設顯示 wide mode
-st.set_page_config(layout="wide", page_icon="📈")
+st.set_page_config(page_title="品牌字詞網路圖", layout="wide", page_icon="📈")
 
 # title
-st.title("字詞網路圖")
+st.title("品牌字詞網路圖")
 st.sidebar.header('參數調整')
 
 ## 品牌選擇

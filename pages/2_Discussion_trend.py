@@ -6,7 +6,7 @@ import plotly.express as px
 # 負責人：伊廷
 
 # 預設顯示 wide mode
-st.set_page_config(layout="wide", page_icon="📈")
+st.set_page_config(page_title="品牌網路聲量趨勢", layout="wide", page_icon="📈")
 
 
 conn = st.experimental_connection('gcs', type=FilesConnection)
