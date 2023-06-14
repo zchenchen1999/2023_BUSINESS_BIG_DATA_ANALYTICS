@@ -5,7 +5,7 @@ import pandas as pd
 from st_files_connection import FilesConnection
 
 # 預設顯示 wide mode
-st.set_page_config(page_title="裕日有望客分析系統", layout="wide")
+st.set_page_config(page_title="裕日有望客分析系統", layout="wide", page_icon="📈")
 
 # title
 st.title("裕日有望客分析系統")
@@ -41,7 +41,7 @@ def load_data(url):
 
 
 # 內部資料
-st.header("內部資料")
+st.markdown("## 內部資料")
 # 讀取內部資料
 internal = load_data("big-data-class-2023/rawData/nissan_internal.csv")
 st.dataframe(internal)
