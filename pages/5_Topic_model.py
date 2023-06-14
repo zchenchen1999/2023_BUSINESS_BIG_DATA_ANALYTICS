@@ -72,6 +72,7 @@ if word:
     if relative_art.empty:
         st.write("沒有找到相關文章.")
     else:
+        st.write('共找到 ',len(relative_art), ' 篇文章')
         st.dataframe(relative_art,     
                      column_config = {
                         "artTitle": "文章標題",
@@ -82,4 +83,4 @@ if word:
                     },
                     use_container_width=True,
                     hide_index=True)
-        st.write('關鍵字', word,'共找到 ',len(relative_art), ' 篇文章')
+        
