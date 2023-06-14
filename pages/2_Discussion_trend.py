@@ -37,7 +37,7 @@ df_interact = pd.concat([ford, honda, mazda, nissan, toyota], ignore_index=True)
 df_interact['artDate'] = pd.to_datetime(df_interact['artDate'],format='%Y-%m-%d')
 
 # Set header title
-st.markdown('#### 品牌網路聲量趨勢')
+st.title('品牌網路聲量趨勢')
 st.markdown('聲量：該月份的PTT文章總數')
 
 # Define list of selection options and sort alphabetically
@@ -92,8 +92,7 @@ brand_volume = df_select.groupby(['Brand', df_select['artDate'].dt.to_period('M'
 fig = px.line(brand_volume, x="artDate", y="system_id", color="Brand")
 fig.update_layout(
     xaxis_title="月份",
-    yaxis_title="網路聲量",
-    title="品牌網路聲量趨勢"
+    yaxis_title="網路聲量"
 )
 st.plotly_chart(fig, use_container_width = True)
 
