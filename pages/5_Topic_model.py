@@ -29,10 +29,10 @@ components.html(HtmlFile, height=900, scrolling=True)
 
 
 # 主題模型描述 dataframe
-st.markdown('#### 主題模型結果說明')
+st.markdown('#### 分析結果說明')
 topic = {
     '': ['Topic1', 'Topic2', 'Topic3', 'Topic4', 'Topic5'],
-    '主題關鍵字(僅列出部分)': ['業務、預算、空間、價格、不錯、隔音、安全、試乘、後座', 
+    '主題關鍵字 (僅列出部分)': ['業務、預算、空間、價格、不錯、隔音、安全、試乘、後座', 
               '裕隆、中國、日本、豐田、市場、進口、美國、電動車、國產、銷量、歐洲、成本',
               '原廠、保養、變速箱、里程、油耗、外觀、保固、引擎、市區、內裝、妥善、維修',
               '折價、空車、贈送、換新、北部、現金、交車裡、旗艦版、菜單',
@@ -63,7 +63,7 @@ def get_article(word):
     except KeyError:
         return []
 
-st.markdown('**💡 可以在這邊搜尋特定關鍵字的文章**')
+st.markdown('#### 關鍵字搜尋')
 
 word = st.text_input("請輸入關鍵字:")
 
