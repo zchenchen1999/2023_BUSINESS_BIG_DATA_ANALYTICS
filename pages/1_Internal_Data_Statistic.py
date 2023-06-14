@@ -40,7 +40,7 @@ df_interact.loc[(df_interact['成交車系'] == 'B18') |
                 (df_interact['試乘_B18'] >= 1), 'KicksSentra'] = 'Sentra'
 
 df_interact.loc[(df_interact['成交車系'] != 'NULL') |
-                (df_interact['試乘車輛'] != 0, 'KicksSentra')] = '試乘/交車其他車系'
+                (df_interact['試乘車輛'] != 0), 'KicksSentra'] = '試乘/交車其他車系'
 
 # Set header title
 st.title("Nissan 內部資料統計")
