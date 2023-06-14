@@ -14,7 +14,7 @@ from ast import literal_eval
 from st_files_connection import FilesConnection
 
 # 預設顯示 wide mode
-st.set_page_config(page_title="詞頻分析/文字雲", layout="wide", page_icon="📈")
+st.set_page_config(page_title="詞頻分析", layout="wide", page_icon="📈")
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 # 設定資料連結
@@ -48,8 +48,8 @@ df_interact['artDate'] = pd.to_datetime(df_interact['artDate'],format='%Y-%m-%d'
 # Set header title
 # st.title('時間區間品牌網路詞頻計算')
 # title
-st.title("詞頻分析/文字雲")
-st.markdown('**文字雲**')
+st.title("詞頻分析")
+st.markdown('#### 文字雲')
 
 # Define list of selection options and sort alphabetically
 brand_list = ['Nissan', 'Toyota', 'Ford', 'Honda', 'Mazda']
@@ -205,15 +205,15 @@ else:
 
             # 詞頻長條圖
             fig = px.bar(freq_df_3.iloc[:20], x='word', y='freq')
+            st.markdown('#### 詞頻長條圖')
             fig.update_layout(
                 # yaxis = list(autorange = "reversed"),
                 xaxis_title="斷詞",
                 yaxis_title="數量",
-                title="詞頻長條圖"
             )
             st.plotly_chart(fig, use_container_width = True)
 
-            st.markdown('**資料表**')
+            st.markdown('#### 資料表')
 
             st.dataframe(
                 df_select2[["artTitle", "artDate", "artCatagory", "artContent"]],

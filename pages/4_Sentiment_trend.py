@@ -158,7 +158,7 @@ if (selected_brands and selected_sentiment):
 
 
     # 以情緒為主 => 查看品牌
-    st.subheader("不同品牌間情緒比較")
+    st.markdown("#### 不同品牌間情緒比較")
     sentiment_tabs = st.tabs(sentiment_list)
     for i in range (len(sentiment_tabs)):
         tmp_df = brand_sentiment_melt[brand_sentiment_melt['variable'] == sentiment_list[i]]
@@ -167,7 +167,7 @@ if (selected_brands and selected_sentiment):
 
     st.sidebar.divider()
     # 以品牌為主 => 查看正向情緒與負向情緒
-    st.subheader("品牌正負情緒比較")
+    st.markdown("#### 品牌正負情緒比較")
     brand_tabs = st.tabs(selected_brands)
     for i in range (len(brand_tabs)):
         # 篩選品牌

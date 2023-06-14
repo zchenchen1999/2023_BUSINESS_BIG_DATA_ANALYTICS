@@ -40,24 +40,24 @@ def load_data(url):
 
 
 st.markdown(
-    f""" ### 專案目標:
+    f""" #### 專案目標:
     - 鎖定Kicks及Sentra兩車型，透過爬蟲收集外部輿情等標籤，分析國內市場動態與有望客之關聯性，了解目標消費者當前討論之熱門議題與興趣輪廓，擬定行銷策略，並藉由市場反應進行策略優化。
     """, unsafe_allow_html=True)
 
 
 # 內部資料
-st.markdown("### 內部資料")
+st.markdown("#### 內部資料")
 # 讀取內部資料
 internal = load_data("big-data-class-2023/rawData/nissan_internal.csv")
 st.dataframe(internal)
 
 # # 顯示外部資料
 st.markdown(
-    f""" ### 外部資料:
+    f""" #### 外部資料:
     - 資料取得方式 : PTT 爬蟲
     - 資料來源 : 汽車版、汽車買賣版
     - 資料區間：2020/12/01 ~ 2023/01/31
-    
+
     `資料清理之定義為清除有空值的資料`
 
     | 廠牌 | 爬蟲關鍵字 | 資料總筆數 | 清理後筆數 |

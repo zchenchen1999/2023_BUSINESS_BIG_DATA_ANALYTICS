@@ -102,14 +102,14 @@ if optionStartTime < optionStartTime:
 raw_chart_data = pd.DataFrame(data[[date, optionVariable, *optionCor, date_int]])
 chart_data = raw_chart_data[(raw_chart_data[date_int] >= optionStartTime) & (raw_chart_data[date_int] <= optionEndTime)].drop(columns=[date_int])
 rows = st.columns(2)
-rows[0].markdown("### Data")
+rows[0].markdown("#### Data")
 rows[0].dataframe(chart_data, use_container_width=True)
-rows[1].markdown("### 相關係數矩陣")
+rows[1].markdown("#### 相關係數矩陣")
 rows[1].dataframe(chart_data.corr(), use_container_width=True)
 
 
 # 建立子圖
-st.header(optionName + '\t' + optionFrequency + '\t' + '內外部相關性趨勢圖')
+st.subheader(optionName + '\t`' + optionFrequency + '`\t' + '內外部相關性趨勢圖')
 fig = make_subplots(specs=[[{"secondary_y": True}]])
 
 # 添加長條圖

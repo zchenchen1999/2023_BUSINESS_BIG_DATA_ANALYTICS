@@ -105,10 +105,10 @@ else:
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="有望客ID")
+            st.markdown('#### 來客數趨勢')
             fig.update_layout(
                 xaxis_title="月份",
                 yaxis_title="來客數",
-                title="來客數趨勢"
             )
             st.plotly_chart(fig, use_container_width = True)
 
@@ -119,10 +119,10 @@ else:
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="有望客ID", color='性別')
+            st.markdown('#### 各性別來客數趨勢')
             fig.update_layout(
                 xaxis_title="月份",
-                yaxis_title="來客數",
-                title="各性別來客數趨勢"
+                yaxis_title="來客數"
             )
             st.plotly_chart(fig, use_container_width = True)
 
@@ -133,10 +133,10 @@ else:
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="有望客ID", color='初始分級')
+            st.markdown('#### 各初始分級來客數趨勢')
             fig.update_layout(
                 xaxis_title="月份",
-                yaxis_title="來客數",
-                title="各初始分級來客數趨勢"
+                yaxis_title="來客數"
             )
             st.plotly_chart(fig, use_container_width = True)
 
@@ -147,10 +147,10 @@ else:
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="有望客ID", color='DEALERCODE')
+            st.markdown('#### 各經銷商來客數趨勢')
             fig.update_layout(
                 xaxis_title="月份",
-                yaxis_title="來客數",
-                title="各經銷商來客數趨勢"
+                yaxis_title="來客數"
             )
             st.plotly_chart(fig, use_container_width = True)
         
@@ -168,10 +168,10 @@ else:
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="年齡")
+            st.markdown('#### 有望客年齡趨勢')
             fig.update_layout(
                 xaxis_title="月份",
-                yaxis_title="平均年齡",
-                title="有望客年齡趨勢"
+                yaxis_title="平均年齡"
             )
             st.plotly_chart(fig, use_container_width = True)
 
@@ -182,10 +182,10 @@ else:
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="年齡", color='性別')
+            st.markdown('#### 各性別有望客年齡趨勢')
             fig.update_layout(
                 xaxis_title="月份",
-                yaxis_title="平均年齡",
-                title="各性別有望客年齡趨勢"
+                yaxis_title="平均年齡"
             )
             st.plotly_chart(fig, use_container_width = True)
 
@@ -196,10 +196,10 @@ else:
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="年齡", color='初始分級')
+            st.markdown('#### 各初始分級有望客年齡趨勢')
             fig.update_layout(
                 xaxis_title="月份",
-                yaxis_title="平均年齡",
-                title="各初始分級有望客年齡趨勢"
+                yaxis_title="平均年齡"
             )
             st.plotly_chart(fig, use_container_width = True)
 
@@ -210,10 +210,10 @@ else:
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="年齡", color='DEALERCODE')
+            st.markdown('#### 各經銷商有望客年齡趨勢')
             fig.update_layout(
                 xaxis_title="月份",
-                yaxis_title="平均年齡",
-                title="各經銷商有望客年齡趨勢"
+                yaxis_title="平均年齡"
             )
 
 
@@ -228,10 +228,10 @@ else:
         freq_df.sort_values(ascending=False, by='freq',inplace=True)
 
         fig = px.bar(freq_df.iloc[:20], x='成交車系', y='freq')
+        st.markdown('#### 各車系交車數長條圖')
         fig.update_layout(
             xaxis_title="車系",
-            yaxis_title="數量",
-            title="各車系交車數長條圖"
+            yaxis_title="數量"
         )
         st.plotly_chart(fig, use_container_width = True)
 
@@ -249,10 +249,10 @@ else:
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="試乘車輛")
+            st.markdown('#### 有望客試乘車輛數趨勢')
             fig.update_layout(
                 xaxis_title="月份",
-                yaxis_title="試乘車輛數",
-                title="有望客試乘車輛數趨勢"
+                yaxis_title="試乘車輛數"
             )
             st.plotly_chart(fig, use_container_width = True)
 
@@ -263,10 +263,10 @@ else:
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="試乘車輛", color='性別')
+            st.markdown('#### 各性別有望客試乘車輛數趨勢')
             fig.update_layout(
                 xaxis_title="月份",
-                yaxis_title="試乘車輛數",
-                title="各性別有望客試乘車輛數趨勢"
+                yaxis_title="試乘車輛數"
             )
             st.plotly_chart(fig, use_container_width = True)
 
@@ -277,10 +277,10 @@ else:
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="試乘車輛", color='初始分級')
+            st.markdown('#### 各初始分級有望客試乘車輛數趨勢')
             fig.update_layout(
                 xaxis_title="月份",
-                yaxis_title="試乘車輛數",
-                title="各初始分級有望客試乘車輛數趨勢"
+                yaxis_title="試乘車輛數"
             )
             st.plotly_chart(fig, use_container_width = True)
 
@@ -291,9 +291,9 @@ else:
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="試乘車輛", color='DEALERCODE')
+            st.markdown('#### 各經銷商有望客試乘車輛數趨勢')
             fig.update_layout(
                 xaxis_title="月份",
-                yaxis_title="試乘車輛數",
-                title="各經銷商有望客試乘車輛數趨勢"
+                yaxis_title="試乘車輛數"
             )
             st.plotly_chart(fig, use_container_width = True)

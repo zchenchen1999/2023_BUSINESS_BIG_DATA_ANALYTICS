@@ -37,7 +37,7 @@ df_interact = pd.concat([ford, honda, mazda, nissan, toyota], ignore_index=True)
 df_interact['artDate'] = pd.to_datetime(df_interact['artDate'],format='%Y-%m-%d')
 
 # Set header title
-st.title('品牌網路聲量趨勢')
+st.markdown('#### 品牌網路聲量趨勢')
 st.markdown('聲量：該月份的PTT文章總數')
 
 # Define list of selection options and sort alphabetically
