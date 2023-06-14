@@ -100,7 +100,7 @@ if selected_ending_date < selected_beginning_date:
 
 # Filter the dataframe based on selected brands and dates
 df_select = df_interact.loc[(df_interact['DEALERCODE'].isin(list(select_dealer))) &
-                            (df_interact['KicksSentra'].isin(list(select_test_buy)))
+                            (df_interact['KicksSentra'].isin(list(select_test_buy))) &
                             (df_interact['建檔日'].dt.to_period('M') >= selected_beginning_date.to_period('M')) &
                             (df_interact['建檔日'].dt.to_period('M') <= selected_ending_date.to_period('M'))]
 
