@@ -3,7 +3,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from st_files_connection import FilesConnection
+#from st_files_connection import FilesConnection
 
 # 預設顯示 wide mode
 st.set_page_config(page_title="品牌網路情緒趨勢", layout="wide", page_icon="📈")
@@ -121,11 +121,11 @@ if (selected_brands and selected_sentiment):
 
     # Merge positive and negative counts
     brand_sentiment_count_merged = pd.merge(brand_sentiment_count_positive, brand_sentiment_count_negative, on=['Brand', 'artDate'], how='outer').fillna(0)
-    # # Merge positive and negative counts with total count
-    # brand_sentiment_ratio = pd.merge(brand_sentiment_count_merged, brand_total_count, on=['Brand', 'artDate'], how='left')
-    # # Calculate sentiment ratio
-    # brand_sentiment_ratio['positive_ratio'] = brand_sentiment_ratio['positive_count'] / brand_sentiment_ratio['total_count']
-    # brand_sentiment_ratio['negative_ratio'] = brand_sentiment_ratio['negative_count'] / brand_sentiment_ratio['total_count']
+    # Merge positive and negative counts with total count
+    brand_sentiment_ratio = pd.merge(brand_sentiment_count_merged, brand_total_count, on=['Brand', 'artDate'], how='left')
+    # Calculate sentiment ratio
+    brand_sentiment_ratio['positive_ratio'] = brand_sentiment_ratio['positive_count'] / brand_sentiment_ratio['total_count']
+    brand_sentiment_ratio['negative_ratio'] = brand_sentiment_ratio['negative_count'] / brand_sentiment_ratio['total_count']
 
    
     # # Pivot the table to have sentimentRatio as columns
@@ -158,23 +158,24 @@ if (selected_brands and selected_sentiment):
     # st.plotly_chart(fig)
 
 
+    brand_sentiment_count_merged.rename(columns = {'Brand':'品牌', 'artDate':'發文日期', 'positive_count':'正向', 'negative_count':'負向'}, inplace = True)
+    brand_sentiment_melt = pd.melt(brand_sentiment_count_merged, id_vars=['品牌', '發文日期'], value_vars=['正向', '負向'])
 
-    brand_sentiment_count_merged.rename(columns = {'positive_count':'正向', 'negative_count':'負向'}, inplace = True)
-    brand_sentiment_melt = pd.melt(brand_sentiment_count_merged, id_vars=['Brand', 'artDate'], value_vars=['正向', '負向'])
-    # # Melt the dataframe for plotting
-    # brand_sentiment_melt_ratio = pd.melt(brand_sentiment_ratio, id_vars=['Brand', 'artDate'], value_vars=['positive_ratio', 'negative_ratio'])
-
+    brand_sentiment_ratio.rename(columns = {'Brand':'品牌', 'artDate':'發文日期', 'positive_ratio':'正向', 'negative_ratio':'負向'}, inplace = True)
+    # Melt the dataframe for plotting
+    brand_sentiment_melt_ratio = pd.melt(brand_sentiment_ratio, id_vars=['品牌', '發文日期'], value_vars=['正向', '負向'])
+    #print(brand_sentiment_melt_ratio)
 
     # 以情緒為主 => 查看品牌
     st.markdown("#### 不同品牌間情緒比較")
     sentiment_tabs = st.tabs(sentiment_list)
     for i in range (len(sentiment_tabs)):
-        tmp_df = brand_sentiment_melt[brand_sentiment_melt['variable'] == sentiment_list[i]]
-        #tmp_df = brand_sentiment_melt_ratio[brand_sentiment_melt_ratio['variable'] == sentiment_list[i]]
-        fig = px.line(tmp_df, x="artDate", y="value", color="Brand",title=sentiment_list[i])
+        #tmp_df = brand_sentiment_melt[brand_sentiment_melt['variable'] == sentiment_list[i]]
+        tmp_df = brand_sentiment_melt_ratio[brand_sentiment_melt_ratio['variable'] == sentiment_list[i]]
+        fig = px.line(tmp_df, x="發文日期", y="value", color="品牌",title=sentiment_list[i])
         fig.update_layout(
             xaxis_title="月份",
-            yaxis_title="文章數量"
+            yaxis_title="比率"
         )
         sentiment_tabs[i].plotly_chart(fig, use_container_width=True)
 
@@ -183,15 +184,14 @@ if (selected_brands and selected_sentiment):
     st.markdown("#### 品牌正負情緒比較")
     brand_tabs = st.tabs(selected_brands)
     for i in range (len(brand_tabs)):
-        # 篩選品牌
-        tmp_df = brand_sentiment_melt[brand_sentiment_melt['Brand'] == selected_brands[i]]
-        fig = px.line(tmp_df, x="artDate", y="value", color="variable",title=selected_brands[i])
+        tmp_df = brand_sentiment_melt[brand_sentiment_melt['品牌'] == selected_brands[i]]
+        fig = px.line(tmp_df, x="發文日期", y="value", color="variable",title=selected_brands[i])
                 #   color_discrete_map={"positive": "green", "negative": "red"},
         fig.update_layout(
             xaxis_title="月份",
             yaxis_title="文章數量"
         )
         brand_tabs[i].plotly_chart(fig, use_container_width=True)
-        brand_tabs[i].dataframe(brand_sentiment_count_merged[brand_sentiment_count_merged['Brand'] == selected_brands[i]], use_container_width=True)
+        brand_tabs[i].dataframe(brand_sentiment_count_merged[brand_sentiment_count_merged['品牌'] == selected_brands[i]], use_container_width=True)
 else:
     st.error("請至少選擇一項品牌與情緒")
