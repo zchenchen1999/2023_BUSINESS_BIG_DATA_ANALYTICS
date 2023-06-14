@@ -96,7 +96,6 @@ else:
 
         cust_list = ['來店數', '來店數X性別', '來店數X初始分級', '來店數X經銷商']
         default_index1 = cust_list.index("來店數")
-        st.markdown('#### 請選擇要查看的圖表')
         select_comp = st.selectbox('選擇圖表', cust_list, index=default_index1)
 
         if select_comp == '來店數':
