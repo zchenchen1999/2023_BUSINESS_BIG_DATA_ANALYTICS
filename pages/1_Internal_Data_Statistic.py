@@ -32,6 +32,7 @@ df_interact['試乘日'] = pd.to_datetime(df_interact['試乘日'],format='%Y-%m
 df_interact['交車日'] = pd.to_datetime(df_interact['交車日'],format='%Y-%m-%d')
 
 # Set header title
+st.title("Nissan 內部資料統計")
 st.sidebar.subheader('參數調整')
 # st.markdown('文字雲')
 
