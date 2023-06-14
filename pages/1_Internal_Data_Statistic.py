@@ -215,6 +215,7 @@ else:
                 xaxis_title="月份",
                 yaxis_title="平均年齡"
             )
+            st.plotly_chart(fig, use_container_width = True)
 
 
 
