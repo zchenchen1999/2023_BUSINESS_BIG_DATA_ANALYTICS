@@ -31,7 +31,7 @@ st.markdown(
     f"""##### 網路圖說明: 
     - 可以放大縮小、點擊節點進行拖拉
     - 連接節點的線越粗代表關聯度越高
-    """)
+    """, unsafe_allow_html=True)
 
 # 資料載入
 conn = st.experimental_connection('gcs', type=FilesConnection)

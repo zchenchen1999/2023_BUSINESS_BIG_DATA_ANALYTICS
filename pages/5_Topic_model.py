@@ -19,7 +19,7 @@ st.markdown(
     - 左邊的圓圈代表不同的主題，圓圈大小代表該主題的討論量
     - 右邊藍色的長條圖代表 PTT 中提到該詞彙的總次數
     - 右邊紅色的長條圖比例越高代表該詞彙越集中在當前的主題中
-    """)
+    """, unsafe_allow_html=True)
 
 # 主題模型 html 讀取
 path = './html_files/nissan_lda.html'
