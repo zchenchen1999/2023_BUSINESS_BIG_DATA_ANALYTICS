@@ -48,10 +48,8 @@ brand_list.sort()
 st.sidebar.subheader('參數調整')
 selected_brands = st.sidebar.multiselect('選擇品牌', brand_list, default=['Nissan'])
 
-st.sidebar.divider()  # 分隔線
 
 # 選擇月份
-st.sidebar.title('選擇月份區間')
 st.sidebar.caption('有效月份範圍：2020-12 - 2023-01')
 
 # 取得所有的月份選項

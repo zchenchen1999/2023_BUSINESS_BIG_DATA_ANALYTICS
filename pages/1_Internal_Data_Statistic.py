@@ -33,14 +33,14 @@ df_interact['交車日'] = pd.to_datetime(df_interact['交車日'],format='%Y-%m
 
 # 新增kicks, sentra, 其他
 df_interact['KicksSentra'] = '無試乘/交車'
-df_interact.loc[(df_interact['成交車系'] == 'P15') |
-                (df_interact['試乘_P15'] >= 1)]['KicksSentra'] = 'Kicks'
+condition = (df_interact['成交車系'] == 'P15') | (df_interact['試乘_P15'] >= 1)
+df_interact.loc[condition, 'KicksSentra'] = 'Kicks'
 
-df_interact.loc[(df_interact['成交車系'] == 'B18') |
-                (df_interact['試乘_B18'] >= 1)]['KicksSentra'] = 'Sentra'
+condition = (df_interact['成交車系'] == 'B18') | (df_interact['試乘_B18'] >= 1)
+df_interact.loc[condition, 'KicksSentra'] = 'Sentra'
 
-df_interact.loc[(df_interact['成交車系'] != 'NULL') |
-                (df_interact['試乘車輛'] != 0)]['KicksSentra'] = '試乘/交車其他車系'
+condition = (df_interact['成交車系'] != 'NULL') | (df_interact['試乘車輛'] != 0)
+df_interact.loc[condition, 'KicksSentra'] = '試乘/交車其他車系'
 
 # Set header title
 st.title("Nissan 內部資料統計")
@@ -100,7 +100,7 @@ if selected_ending_date < selected_beginning_date:
 
 # Filter the dataframe based on selected brands and dates
 df_select = df_interact.loc[(df_interact['DEALERCODE'].isin(list(select_dealer))) &
-                            (df_interact['KicksSentra'].isin(list(select_test_buy)))
+                            (df_interact['KicksSentra'].isin(list(select_test_buy))) &
                             (df_interact['建檔日'].dt.to_period('M') >= selected_beginning_date.to_period('M')) &
                             (df_interact['建檔日'].dt.to_period('M') <= selected_ending_date.to_period('M'))]
 
