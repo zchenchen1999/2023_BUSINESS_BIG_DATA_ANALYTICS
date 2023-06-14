@@ -8,27 +8,27 @@ import plotly.express as px
 # 預設顯示 wide mode
 st.set_page_config(page_title="品牌網路情緒趨勢", layout="wide", page_icon="📈")
 
-# # 雲端讀取檔案
-# conn = st.experimental_connection('gcs', type=FilesConnection)
+# 雲端讀取檔案
+conn = st.experimental_connection('gcs', type=FilesConnection)
 
-# @st.cache_data(persist=True)  # 👈 Add the caching decorator
-# def load_data(url):
-#     csv_data = conn.read(url, input_format="csv", ttl=None)
-#     return csv_data
+@st.cache_data(persist=True)  # 👈 Add the caching decorator
+def load_data(url):
+    csv_data = conn.read(url, input_format="csv", ttl=None)
+    return csv_data
     
-# # 讀取品牌ptt資料
-# nissan = load_data("big-data-class-2023/nissan_clean_data.csv")
-# toyota = load_data("big-data-class-2023/toyota_clean_data.csv")
-# ford = load_data("big-data-class-2023/ford_clean_data.csv")
-# honda = load_data("big-data-class-2023/honda_clean_data.csv")
-# mazda = load_data("big-data-class-2023/mazda_clean_data.csv")
+# 讀取品牌ptt資料
+nissan = load_data("big-data-class-2023/nissan_clean_data.csv")
+toyota = load_data("big-data-class-2023/toyota_clean_data.csv")
+ford = load_data("big-data-class-2023/ford_clean_data.csv")
+honda = load_data("big-data-class-2023/honda_clean_data.csv")
+mazda = load_data("big-data-class-2023/mazda_clean_data.csv")
 
-#讀取品牌ptt資料
-ford = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/ford_clean_data.csv')
-honda = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/honda_clean_data.csv')
-mazda = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/mazda_clean_data.csv')
-toyota = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/toyota_clean_data.csv')
-nissan = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/nissan_clean_data.csv')
+# #讀取品牌ptt資料
+# ford = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/ford_clean_data.csv')
+# honda = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/honda_clean_data.csv')
+# mazda = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/mazda_clean_data.csv')
+# toyota = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/toyota_clean_data.csv')
+# nissan = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/nissan_clean_data.csv')
 
 #新增品牌欄位
 ford = ford.assign(Brand='Ford')
