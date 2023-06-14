@@ -3,32 +3,32 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from st_files_connection import FilesConnection
+#from st_files_connection import FilesConnection
 
 # 預設顯示 wide mode
 st.set_page_config(page_title="品牌網路情緒趨勢", layout="wide", page_icon="📈")
 
-# 雲端讀取檔案
-conn = st.experimental_connection('gcs', type=FilesConnection)
+# # 雲端讀取檔案
+# conn = st.experimental_connection('gcs', type=FilesConnection)
 
-@st.cache_data(persist=True)  # 👈 Add the caching decorator
-def load_data(url):
-    csv_data = conn.read(url, input_format="csv", ttl=None)
-    return csv_data
+# @st.cache_data(persist=True)  # 👈 Add the caching decorator
+# def load_data(url):
+#     csv_data = conn.read(url, input_format="csv", ttl=None)
+#     return csv_data
     
-# 讀取品牌ptt資料
-nissan = load_data("big-data-class-2023/nissan_clean_data.csv")
-toyota = load_data("big-data-class-2023/toyota_clean_data.csv")
-ford = load_data("big-data-class-2023/ford_clean_data.csv")
-honda = load_data("big-data-class-2023/honda_clean_data.csv")
-mazda = load_data("big-data-class-2023/mazda_clean_data.csv")
+# # 讀取品牌ptt資料
+# nissan = load_data("big-data-class-2023/nissan_clean_data.csv")
+# toyota = load_data("big-data-class-2023/toyota_clean_data.csv")
+# ford = load_data("big-data-class-2023/ford_clean_data.csv")
+# honda = load_data("big-data-class-2023/honda_clean_data.csv")
+# mazda = load_data("big-data-class-2023/mazda_clean_data.csv")
 
-# #讀取品牌ptt資料
-# ford = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/ford_clean_data.csv')
-# honda = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/honda_clean_data.csv')
-# mazda = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/mazda_clean_data.csv')
-# toyota = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/toyota_clean_data.csv')
-# nissan = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/nissan_clean_data.csv')
+#讀取品牌ptt資料
+ford = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/ford_clean_data.csv')
+honda = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/honda_clean_data.csv')
+mazda = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/mazda_clean_data.csv')
+toyota = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/toyota_clean_data.csv')
+nissan = pd.read_csv('/Users/jerry/Downloads/CM505_App/data/nissan_clean_data.csv')
 
 #新增品牌欄位
 ford = ford.assign(Brand='Ford')
@@ -93,17 +93,17 @@ df_select = df_interact.loc[(df_interact['Brand'].isin(list(selected_brands))) &
 
 
 # 選擇正負向文章
-sentiment_list = ['positive', 'negative']
-selected_sentiment = st.sidebar.multiselect('選擇文章情緒類別', sentiment_list, default=['positive'])
+sentiment_list = ['正向', '負向']
+selected_sentiment = st.sidebar.multiselect('選擇文章情緒類別', sentiment_list, default=['正向', '負向'])
 
 if (selected_brands and selected_sentiment):
     # Filter dataframe based on selected sentimentRatio
-    if 'positive' in selected_sentiment:
+    if '正向' in selected_sentiment:
         df_filtered_sentiment_positive = df_select[df_select['sentimentRatio'] > 0.6]
     else:
         df_filtered_sentiment_positive = pd.DataFrame(columns=df_select.columns)  # 空的 DataFrame
 
-    if 'negative' in selected_sentiment:
+    if '負向' in selected_sentiment:
         df_filtered_sentiment_negative = df_select[df_select['sentimentRatio'] < 0.4]
     else:
         df_filtered_sentiment_negative = pd.DataFrame(columns=df_select.columns)  # 空的 DataFrame
@@ -150,8 +150,8 @@ if (selected_brands and selected_sentiment):
 
 
 
-    brand_sentiment_count_merged.rename(columns = {'positive_count':'positive', 'negative_count':'negative'}, inplace = True)
-    brand_sentiment_melt = pd.melt(brand_sentiment_count_merged, id_vars=['Brand', 'artDate'], value_vars=['positive', 'negative'])
+    brand_sentiment_count_merged.rename(columns = {'positive_count':'正向', 'negative_count':'負向'}, inplace = True)
+    brand_sentiment_melt = pd.melt(brand_sentiment_count_merged, id_vars=['Brand', 'artDate'], value_vars=['正向', '負向'])
 
 
     # 以情緒為主 => 查看品牌
@@ -160,6 +160,10 @@ if (selected_brands and selected_sentiment):
     for i in range (len(sentiment_tabs)):
         tmp_df = brand_sentiment_melt[brand_sentiment_melt['variable'] == sentiment_list[i]]
         fig = px.line(tmp_df, x="artDate", y="value", color="Brand",title=sentiment_list[i])
+        fig.update_layout(
+            xaxis_title="月份",
+            yaxis_title="文章數量"
+        )
         sentiment_tabs[i].plotly_chart(fig, use_container_width=True)
 
     st.sidebar.divider()
@@ -171,6 +175,10 @@ if (selected_brands and selected_sentiment):
         tmp_df = brand_sentiment_melt[brand_sentiment_melt['Brand'] == selected_brands[i]]
         fig = px.line(tmp_df, x="artDate", y="value", color="variable",title=selected_brands[i])
                 #   color_discrete_map={"positive": "green", "negative": "red"},
+        fig.update_layout(
+            xaxis_title="月份",
+            yaxis_title="文章數量"
+        )
         brand_tabs[i].plotly_chart(fig, use_container_width=True)
         brand_tabs[i].dataframe(brand_sentiment_count_merged[brand_sentiment_count_merged['Brand'] == selected_brands[i]], use_container_width=True)
 else:
