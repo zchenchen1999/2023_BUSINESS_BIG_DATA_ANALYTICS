@@ -3,7 +3,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-#from st_files_connection import FilesConnection
+from st_files_connection import FilesConnection
 
 # 預設顯示 wide mode
 st.set_page_config(page_title="品牌網路情緒趨勢", layout="wide", page_icon="📈")
