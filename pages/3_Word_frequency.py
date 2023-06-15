@@ -99,7 +99,7 @@ selected_ending_date = pd.to_datetime(selected_ending_month, format='%Y-%m')
 if selected_ending_date < selected_beginning_date:
     st.sidebar.error("結束月份不能早於起始月份")
 
-if selected_brands == 'Nissan':
+if selected_brands.isin(list('Nissan')):
     
     default_index3 = car_list.index("全部車系")
     selected_car = st.sidebar.selectbox('選擇車系', car_list, index=default_index3)
