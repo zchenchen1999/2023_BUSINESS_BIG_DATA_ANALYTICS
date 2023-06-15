@@ -40,8 +40,8 @@ mazda['brand'] = "Mazda"
 df_interact = pd.concat([nissan, toyota, ford, honda, mazda])
 
 df_interact['updown'] = '中立'
-df_interact.iloc[(df_interact['sentimentRatio'] >= 0.6, 'updown')] = '正向'
-df_interact.iloc[(df_interact['sentimentRatio'] <= 0.4, 'updown')] = '負向'
+df_interact.iloc[(df_interact['sentimentRatio'] >= 0.6), 'updown'] = '正向'
+df_interact.iloc[(df_interact['sentimentRatio'] <= 0.4), 'updown'] = '負向'
 
 # df_interact = load_df(url1, url2, url3, url4, url5)
 
