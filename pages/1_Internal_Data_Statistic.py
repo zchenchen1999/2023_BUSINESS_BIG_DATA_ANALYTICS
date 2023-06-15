@@ -34,7 +34,7 @@ df_interact['交車日'] = pd.to_datetime(df_interact['交車日'],format='%Y-%m
 # 新增kicks, sentra, 其他
 df_interact['KicksSentra'] = '無試乘/交車'
 
-condition = (df_interact['成交車系'] != 'NULL') | (df_interact['試乘車輛'] != 0)
+condition = (df_interact['成交車系'].notna()) | (df_interact['試乘車輛'] > 0)
 df_interact.loc[condition, 'KicksSentra'] = '試乘/交車其他車系'
 
 condition = (df_interact['成交車系'] == 'P15') | (df_interact['試乘_P15'] >= 1)
