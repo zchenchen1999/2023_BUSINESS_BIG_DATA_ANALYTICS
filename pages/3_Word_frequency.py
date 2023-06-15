@@ -39,6 +39,9 @@ mazda['brand'] = "Mazda"
 
 df_interact = pd.concat([nissan, toyota, ford, honda, mazda])
 
+df_interact['updown'] = '中立'
+df_interact.iloc[(df_interact['sentimentRatio'] >= 0.6, 'updown')] = '正向'
+df_interact.iloc[(df_interact['sentimentRatio'] <= 0.4, 'updown')] = '負向'
 
 # df_interact = load_df(url1, url2, url3, url4, url5)
 
@@ -63,9 +66,13 @@ brand_list.sort()
 
 car_list = ['全部車系', 'Kicks', 'Sentra']
 
+updown_list = ['中立', '正向', '負向']
+
 # Implement multiselect dropdown menu for option selection (returns a list)
 st.sidebar.subheader('參數調整')
 selected_brands = st.sidebar.multiselect('選擇品牌', brand_list, default=['Nissan'])
+
+selected_updown = st.sidebar.multiselect('選擇情緒', updown_list, default=updown_list)
 
 word = st.sidebar.text_input("請輸入關鍵字:")
 
@@ -103,13 +110,15 @@ if selected_ending_date < selected_beginning_date:
     st.sidebar.error("結束月份不能早於起始月份")
 if word == '':
     # Filter the dataframe based on selected brands and dates
-    df_select = df_interact.loc[(df_interact['brand'].isin(list(selected_brands))) &
+    df_select = df_interact.loc[(df_interact['updown'].isin(list(selected_updown))) &
+                                (df_interact['brand'].isin(list(selected_brands))) &
                                 (df_interact['artDate'].dt.to_period('M') >= selected_beginning_date.to_period('M')) &
                                 (df_interact['artDate'].dt.to_period('M') <= selected_ending_date.to_period('M'))]
     
 else:
     # Filter the dataframe based on selected brands and dates
-    df_select = df_interact.loc[(df_interact['words'].str.contains(word)) &
+    df_select = df_interact.loc[(df_interact['updown'].isin(list(selected_updown))) &
+                                (df_interact['words'].str.contains(word)) &
                                 (df_interact['brand'].isin(list(selected_brands))) &
                                 (df_interact['artDate'].dt.to_period('M') >= selected_beginning_date.to_period('M')) &
                                 (df_interact['artDate'].dt.to_period('M') <= selected_ending_date.to_period('M'))]
