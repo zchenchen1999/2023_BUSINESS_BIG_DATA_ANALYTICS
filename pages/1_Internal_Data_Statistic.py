@@ -147,7 +147,7 @@ else:
 
 
             # Plot line chart
-            fig = px.line(customer_pivot, x="建檔日", y="有望客ID", color='性別')
+            fig = px.line(customer, x="建檔日", y="percentage", color='性別')
             st.markdown('#### 有望客來店數趨勢 - 性別')
             fig.update_layout(
                 xaxis_title="月份",
