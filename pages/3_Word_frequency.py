@@ -14,7 +14,7 @@ from ast import literal_eval
 from st_files_connection import FilesConnection
 
 # 預設顯示 wide mode
-st.set_page_config(layout="wide")
+st.set_page_config(page_title="詞頻分析", layout="wide", page_icon="📈")
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 # 設定資料連結
@@ -48,21 +48,21 @@ df_interact['artDate'] = pd.to_datetime(df_interact['artDate'],format='%Y-%m-%d'
 # Set header title
 # st.title('時間區間品牌網路詞頻計算')
 # title
-st.title("詞頻分析/文字雲")
-st.markdown('文字雲')
+st.title("詞頻分析")
+st.markdown('#### 文字雲')
 
 # Define list of selection options and sort alphabetically
 brand_list = ['Nissan', 'Toyota', 'Ford', 'Honda', 'Mazda']
 brand_list.sort()
 
 # Implement multiselect dropdown menu for option selection (returns a list)
-st.sidebar.title('選擇品牌')
+st.sidebar.subheader('參數調整')
 selected_brands = st.sidebar.multiselect('選擇品牌', brand_list, default=['Nissan'])
 
 # st.sidebar.divider()  # 分隔線
 
 # 選擇月份
-st.sidebar.title('選擇月份區間')
+# st.sidebar.title('選擇月份區間')
 st.sidebar.caption('有效月份範圍：2020-12 - 2023-01')
 
 # 取得所有的月份選項
@@ -123,8 +123,8 @@ else:
 
     # 選擇要篩選含有哪個詞的文章
     default_index = voc.index("未選擇")
-    st.sidebar.divider()
-    st.sidebar.title('斷詞篩選')
+    # st.sidebar.divider()
+    # st.sidebar.subheader('斷詞篩選')
     select_voc = st.sidebar.selectbox('選擇斷詞', voc, index=default_index)
 
     if select_voc == '未選擇':
@@ -151,7 +151,7 @@ else:
         )
         st.plotly_chart(fig, use_container_width = True)
 
-        st.markdown('資料表')
+        st.markdown('**資料表**')
 
         st.dataframe(
             df_select[["artTitle", "artDate", "artCatagory", "artContent"]],
@@ -195,25 +195,25 @@ else:
 
             # 文字雲
             FontPath = 'data/font/SourceHanSansTW-Regular.otf' # 設定字型
-            wordcloud = WordCloud(background_color='white', font_path=FontPath, max_words=200)
+            wordcloud = WordCloud(background_color='white', width=800, height = 400, font_path=FontPath, max_words=200)
             wordcloud.generate_from_frequencies(freq_dict)
             plt.figure(figsize = (14,7))
             plt.imshow(wordcloud)
             plt.axis('off')
             plt.show()
-            st.pyplot(use_container_width = True)
+            st.pyplot()
 
             # 詞頻長條圖
             fig = px.bar(freq_df_3.iloc[:20], x='word', y='freq')
+            st.markdown('#### 詞頻長條圖')
             fig.update_layout(
                 # yaxis = list(autorange = "reversed"),
                 xaxis_title="斷詞",
                 yaxis_title="數量",
-                title="詞頻長條圖"
             )
             st.plotly_chart(fig, use_container_width = True)
 
-            st.markdown('資料表')
+            st.markdown('#### 資料表')
 
             st.dataframe(
                 df_select2[["artTitle", "artDate", "artCatagory", "artContent"]],
