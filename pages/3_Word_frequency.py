@@ -95,12 +95,18 @@ selected_ending_date = pd.to_datetime(selected_ending_month, format='%Y-%m')
 # 防呆機制：結束月份不能選擇比起始月份還前面的日期
 if selected_ending_date < selected_beginning_date:
     st.sidebar.error("結束月份不能早於起始月份")
-
-# Filter the dataframe based on selected brands and dates
-df_select = df_interact.loc[(df_interact['words'].str.contains(word))
-                            (df_interact['brand'].isin(list(selected_brands))) &
-                            (df_interact['artDate'].dt.to_period('M') >= selected_beginning_date.to_period('M')) &
-                            (df_interact['artDate'].dt.to_period('M') <= selected_ending_date.to_period('M'))]
+if word == '':
+    # Filter the dataframe based on selected brands and dates
+    df_select = df_interact.loc[(df_interact['brand'].isin(list(selected_brands))) &
+                                (df_interact['artDate'].dt.to_period('M') >= selected_beginning_date.to_period('M')) &
+                                (df_interact['artDate'].dt.to_period('M') <= selected_ending_date.to_period('M'))]
+    
+else:
+    # Filter the dataframe based on selected brands and dates
+    df_select = df_interact.loc[(df_interact['words'].str.contains(word))
+                                (df_interact['brand'].isin(list(selected_brands))) &
+                                (df_interact['artDate'].dt.to_period('M') >= selected_beginning_date.to_period('M')) &
+                                (df_interact['artDate'].dt.to_period('M') <= selected_ending_date.to_period('M'))]
         
     
 if df_select.empty:
