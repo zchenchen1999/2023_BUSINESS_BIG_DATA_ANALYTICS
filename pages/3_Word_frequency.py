@@ -49,6 +49,12 @@ df_interact['artDate'] = pd.to_datetime(df_interact['artDate'],format='%Y-%m-%d'
 # st.title('時間區間品牌網路詞頻計算')
 # title
 st.title("詞頻分析")
+st.markdown(
+    f""" #### 詞頻分析說明:
+    - 左側選單可篩選條件（廠牌、關鍵字、時間區間）
+    - 左側選單下方斷詞篩選，可透過選擇詞頻前20的斷詞，再次將有該斷詞的圖表生成
+    - 生成文字雲、詞頻長條圖、篩選後資料表
+    """, unsafe_allow_html=True)
 st.markdown('#### 文字雲')
 
 # Define list of selection options and sort alphabetically

@@ -45,6 +45,14 @@ df_interact.loc[condition, 'KicksSentra'] = 'Sentra'
 
 # Set header title
 st.title("Nissan 內部資料統計")
+
+st.markdown(
+    f""" #### 內部資料統計說明:
+    - 左側選單選擇要生成的圖表
+    - 左側選單可篩選條件（經銷商、車系、時間區間）
+    - 圖表上方選單可選擇想要的圖表組合
+    """, unsafe_allow_html=True)
+
 st.sidebar.subheader('參數調整')
 # st.markdown('文字雲')
 
