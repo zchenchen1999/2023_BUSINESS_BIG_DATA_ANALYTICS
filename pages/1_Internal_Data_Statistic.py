@@ -128,7 +128,7 @@ else:
 
             # Group by brand & artDate, then calculate total volume
             customer = df_select.groupby([df_select['建檔日'].dt.to_period('M').astype(str)])['有望客ID'].count().reset_index()
-
+           
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="有望客ID")
             st.markdown('#### 有望客來店數趨勢')
@@ -141,7 +141,7 @@ else:
         elif select_comp == '來店數X性別':
 
             # Group by brand & artDate, then calculate total volume
-            customer = df_select.groupby(['性別',df_select['建檔日'].dt.to_period('M').astype(str)])['有望客ID'].count().reset_index()
+            customer = df_select.groupby(['性別',df_select['建檔日'].dt.to_period('M').astype(str)])['有望客ID'].count().reset_index()/df_select.groupby([df_select['建檔日'].dt.to_period('M').astype(str)])['有望客ID'].count().reset_index()
 
             # Plot line chart
             fig = px.line(customer, x="建檔日", y="有望客ID", color='性別')
