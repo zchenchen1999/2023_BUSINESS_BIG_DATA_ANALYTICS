@@ -141,10 +141,14 @@ else:
         elif select_comp == '來店數X性別':
 
             # Group by brand & artDate, then calculate total volume
-            customer = df_select.groupby(['性別',df_select['建檔日'].dt.to_period('M').astype(str)])['有望客ID'].count().reset_index()/df_select.groupby([df_select['建檔日'].dt.to_period('M').astype(str)])['有望客ID'].count().reset_index()
+            customer = df_select.groupby(['性別',df_select['建檔日'].dt.to_period('M').astype(str)])['有望客ID'].count().reset_index()
+            customer_pivot = pd.pivot_table(customer, values='有望客ID', index='建檔日', columns='性別', aggfunc='sum', fill_value=0)
+            customer_pivot = customer_pivot.div(customer_pivot.sum(axis=1), axis=0) * 100
+            customer_pivot = customer_pivot.reset_index()
+
 
             # Plot line chart
-            fig = px.line(customer, x="建檔日", y="有望客ID", color='性別')
+            fig = px.line(customer_pivot, x="建檔日", y="有望客ID", color='性別')
             st.markdown('#### 有望客來店數趨勢 - 性別')
             fig.update_layout(
                 xaxis_title="月份",
