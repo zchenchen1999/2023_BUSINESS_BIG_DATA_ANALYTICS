@@ -57,14 +57,11 @@ brand_list.sort()
 
 car_list = ['全部車系', 'Kicks', 'Sentra']
 
-all_car = []
-Kicks = ['kicks', 'kick', 'Kicks', 'Kick', 'P15']
-Sentra = ['Sentra', 'sentra', '仙草', 'B18']
-
 # Implement multiselect dropdown menu for option selection (returns a list)
 st.sidebar.subheader('參數調整')
 selected_brands = st.sidebar.multiselect('選擇品牌', brand_list, default=['Nissan'])
 
+word = st.text_input("請輸入關鍵字:")
 
 
 # st.sidebar.divider()  # 分隔線
@@ -99,40 +96,12 @@ selected_ending_date = pd.to_datetime(selected_ending_month, format='%Y-%m')
 if selected_ending_date < selected_beginning_date:
     st.sidebar.error("結束月份不能早於起始月份")
 
-if selected_brands.isin(list('Nissan')):
-    
-    default_index3 = car_list.index("全部車系")
-    selected_car = st.sidebar.selectbox('選擇車系', car_list, index=default_index3)
-
-    if selected_car == '全部車系':
-
-        # Filter the dataframe based on selected brands and dates
-        df_select = df_interact.loc[(df_interact['brand'].isin(list(selected_brands))) &
-                                    (df_interact['artDate'].dt.to_period('M') >= selected_beginning_date.to_period('M')) &
-                                    (df_interact['artDate'].dt.to_period('M') <= selected_ending_date.to_period('M'))]
+# Filter the dataframe based on selected brands and dates
+df_select = df_interact.loc[(df_interact['words'].str.contains(word))
+                            (df_interact['brand'].isin(list(selected_brands))) &
+                            (df_interact['artDate'].dt.to_period('M') >= selected_beginning_date.to_period('M')) &
+                            (df_interact['artDate'].dt.to_period('M') <= selected_ending_date.to_period('M'))]
         
-    elif selected_car == 'Kicks':
-
-        select_id2 = [any(item in x for item in Kicks) for x in df_interact['words']]
-        df_select = df_interact[select_id2]
-
-        df_select = df_select.loc[(df_select['brand'].isin(list(selected_brands))) &
-                                (df_select['artDate'].dt.to_period('M') >= selected_beginning_date.to_period('M')) &
-                                (df_select['artDate'].dt.to_period('M') <= selected_ending_date.to_period('M'))]
-        
-    elif selected_car == 'Sentra':
-
-        select_id2 = [any(item in x for item in Sentra) for x in df_interact['words']]
-        df_select = df_interact[select_id2]
-
-        df_select = df_select.loc[(df_select['brand'].isin(list(selected_brands))) &
-                                  (df_select['artDate'].dt.to_period('M') >= selected_beginning_date.to_period('M')) &
-                                  (df_select['artDate'].dt.to_period('M') <= selected_ending_date.to_period('M'))]
-        
-else:
-    df_select = df_interact.loc[(df_interact['brand'].isin(list(selected_brands))) &
-                                (df_interact['artDate'].dt.to_period('M') >= selected_beginning_date.to_period('M')) &
-                                (df_interact['artDate'].dt.to_period('M') <= selected_ending_date.to_period('M'))]
     
 if df_select.empty:
     st.markdown(":red[篩選後資料表為空值，請重新篩選動作]")
