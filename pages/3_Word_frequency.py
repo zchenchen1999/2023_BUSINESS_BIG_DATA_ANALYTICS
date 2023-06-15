@@ -103,7 +103,7 @@ if word == '':
     
 else:
     # Filter the dataframe based on selected brands and dates
-    df_select = df_interact.loc[(df_interact['words'].str.contains(word))
+    df_select = df_interact.loc[(df_interact['words'].str.contains(word)) &
                                 (df_interact['brand'].isin(list(selected_brands))) &
                                 (df_interact['artDate'].dt.to_period('M') >= selected_beginning_date.to_period('M')) &
                                 (df_interact['artDate'].dt.to_period('M') <= selected_ending_date.to_period('M'))]
