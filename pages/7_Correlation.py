@@ -96,7 +96,7 @@ elif optionFrequency == '週頻':
 
 # 防呆機制：結束月份不能選擇比起始月份還前面的日期
 if int(optionEndTime) < int(optionStartTime):
-    st.sidebar.error("結束月份不能早於起始月份")
+    st.sidebar.error("結束時間不能早於起始時間")
 
 # 給出對應的表格
 raw_chart_data = pd.DataFrame(data[[date, optionVariable, *optionCor, date_int]])
