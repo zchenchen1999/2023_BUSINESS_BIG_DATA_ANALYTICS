@@ -61,7 +61,7 @@ car_list = ['全部車系', 'Kicks', 'Sentra']
 st.sidebar.subheader('參數調整')
 selected_brands = st.sidebar.multiselect('選擇品牌', brand_list, default=['Nissan'])
 
-word = st.text_input("請輸入關鍵字:")
+word = st.sidebar.text_input("請輸入關鍵字:")
 
 
 # st.sidebar.divider()  # 分隔線
