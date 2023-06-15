@@ -95,7 +95,7 @@ elif optionFrequency == '週頻':
       index=data[date_int].tolist().index(default_value))
 
 # 防呆機制：結束月份不能選擇比起始月份還前面的日期
-if int(optionStartTime) < int(optionStartTime):
+if int(optionEndTime) < int(optionStartTime):
     st.sidebar.error("結束月份不能早於起始月份")
 
 # 給出對應的表格
