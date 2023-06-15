@@ -143,7 +143,10 @@ else:
             # Group by brand & artDate, then calculate total volume
             customer = df_select.groupby(['性別',df_select['建檔日'].dt.to_period('M').astype(str)])['有望客ID'].count().reset_index()
             customer2 = customer.groupby('建檔日')['有望客ID'].sum()
-            customer['percentage'] = customer['有望客ID'] / customer2.iloc[customer['建檔日'] == customer2['建檔日'], '有望客ID']
+
+            customer2 = customer2.rename(columns={'有望客ID': '有望客'})
+            customer = customer.merge(customer2, on = "建檔日")
+            customer['percentage'] = customer['有望客ID'] / customer['有望客']
 
 
             # Plot line chart
