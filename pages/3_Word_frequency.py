@@ -65,7 +65,7 @@ Sentra = ['Sentra', 'sentra', '仙草', 'B18']
 st.sidebar.subheader('參數調整')
 selected_brands = st.sidebar.multiselect('選擇品牌', brand_list, default=['Nissan'])
 
-default_index3 = all_car.index("全部車系")
+default_index3 = car_list.index("全部車系")
 selected_car = st.sidebar.selectbox('選擇車系', car_list, index=default_index3)
 
 # st.sidebar.divider()  # 分隔線
