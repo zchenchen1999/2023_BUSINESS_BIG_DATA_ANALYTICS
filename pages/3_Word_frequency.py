@@ -154,7 +154,7 @@ else:
     default_index = voc.index("未選擇")
     # st.sidebar.divider()
     # st.sidebar.subheader('斷詞篩選')
-    select_voc = st.sidebar.selectbox('選擇斷詞', voc, index=default_index)
+    select_voc = st.sidebar.selectbox('進階篩選 (詞頻前20)', voc, index=default_index)
 
     if select_voc == '未選擇':
 
