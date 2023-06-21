@@ -9,11 +9,11 @@ from st_files_connection import FilesConnection
 
 
 # 預設顯示 wide mode
-st.set_page_config(layout="wide")
+st.set_page_config(page_title="品牌字詞網路圖", layout="wide", page_icon="📈")
 
 # title
-st.title("字詞網路圖")
-st.sidebar.header('參數調整')
+st.title("品牌字詞網路圖")
+st.sidebar.subheader('參數調整')
 
 ## 品牌選擇
 brand_list = ['nissan', 'toyota', 'ford', 'honda', 'mazda']
@@ -26,10 +26,13 @@ st.sidebar.write('關聯度:', corr_values)
 
 st.info('以字詞頻率最高的「前100個」關鍵字進行分析')
 
-st.markdown('##### 網路圖說明: ')
-st.text(' ● 可以放大縮小、點擊節點進行拖拉')
-st.text(' ● 連接節點的線越粗代表關聯度越高')
 
+st.markdown(
+    f""" #### 網路圖說明:
+    - 可以放大縮小、點擊節點進行拖拉
+    - 連接節點的線越粗代表關聯度越高
+    - 節點數越多生成圖的時間越長，請稍等一下
+    """, unsafe_allow_html=True)
 
 # 資料載入
 conn = st.experimental_connection('gcs', type=FilesConnection)
@@ -53,7 +56,6 @@ df = df[df['item1'] != df['item2']]
 # 節點數量
 all_nodes = pd.unique(df[['item1', 'item2']].values.ravel())
 st.sidebar.write('節點數量:', len(all_nodes))
-st.sidebar.text('提醒:節點數越多生成圖的時間越長，請耐心等待')
 
 # -------------------------------------------------------- Pyvis ----------------------------------------------------------#
 Cor_Graph = {}

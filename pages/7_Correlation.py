@@ -6,6 +6,9 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from st_files_connection import FilesConnection
 
+# 預設顯示 wide mode
+st.set_page_config(page_title="Nissan 內外部相關性分析", layout="wide", page_icon="📈")
+
 # 設定資料連結
 conn = st.experimental_connection('gcs', type=FilesConnection)
 
@@ -92,21 +95,21 @@ elif optionFrequency == '週頻':
       index=data[date_int].tolist().index(default_value))
 
 # 防呆機制：結束月份不能選擇比起始月份還前面的日期
-if optionStartTime < optionStartTime:
-    st.sidebar.error("結束月份不能早於起始月份")
+if int(optionEndTime) < int(optionStartTime):
+    st.sidebar.error("結束時間不能早於起始時間")
 
 # 給出對應的表格
 raw_chart_data = pd.DataFrame(data[[date, optionVariable, *optionCor, date_int]])
 chart_data = raw_chart_data[(raw_chart_data[date_int] >= optionStartTime) & (raw_chart_data[date_int] <= optionEndTime)].drop(columns=[date_int])
 rows = st.columns(2)
-rows[0].markdown("### Data")
+rows[0].markdown("#### Data")
 rows[0].dataframe(chart_data, use_container_width=True)
-rows[1].markdown("### 相關係數矩陣")
+rows[1].markdown("#### 相關係數矩陣")
 rows[1].dataframe(chart_data.corr(), use_container_width=True)
 
 
 # 建立子圖
-st.header(optionName + '\t' + optionFrequency + '\t' + '內外部相關性趨勢圖')
+st.subheader(optionName + '\t`' + optionFrequency + '`\t' + '內外部相關性趨勢圖')
 fig = make_subplots(specs=[[{"secondary_y": True}]])
 
 # 添加長條圖

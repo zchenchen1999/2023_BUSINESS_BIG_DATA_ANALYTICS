@@ -1,14 +1,13 @@
 import streamlit as st
-
-# 預設顯示 wide mode
-st.set_page_config(layout="wide")
-
-# 負責人：伊廷
-
-import streamlit as st
 from st_files_connection import FilesConnection
 import pandas as pd
 import plotly.express as px
+
+# 負責人：伊廷
+
+# 預設顯示 wide mode
+st.set_page_config(page_title="品牌網路聲量趨勢", layout="wide", page_icon="📈")
+
 
 conn = st.experimental_connection('gcs', type=FilesConnection)
 
@@ -46,13 +45,11 @@ brand_list = ['Nissan', 'Toyota', 'Ford', 'Honda', 'Mazda']
 brand_list.sort()
 
 # Implement multiselect dropdown menu for option selection (returns a list)
-st.sidebar.title('選擇品牌')
+st.sidebar.subheader('參數調整')
 selected_brands = st.sidebar.multiselect('選擇品牌', brand_list, default=['Nissan'])
 
-st.sidebar.divider()  # 分隔線
 
 # 選擇月份
-st.sidebar.title('選擇月份區間')
 st.sidebar.caption('有效月份範圍：2020-12 - 2023-01')
 
 # 取得所有的月份選項
@@ -93,8 +90,7 @@ brand_volume = df_select.groupby(['Brand', df_select['artDate'].dt.to_period('M'
 fig = px.line(brand_volume, x="artDate", y="system_id", color="Brand")
 fig.update_layout(
     xaxis_title="月份",
-    yaxis_title="網路聲量",
-    title="品牌網路聲量趨勢"
+    yaxis_title="網路聲量"
 )
 st.plotly_chart(fig, use_container_width = True)
 

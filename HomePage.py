@@ -5,7 +5,7 @@ import pandas as pd
 from st_files_connection import FilesConnection
 
 # 預設顯示 wide mode
-st.set_page_config(page_title="裕日有望客分析系統", layout="wide")
+st.set_page_config(page_title="裕日有望客分析系統", layout="wide", page_icon="📈")
 
 # title
 st.title("裕日有望客分析系統")
@@ -39,11 +39,33 @@ def load_data(url):
 #     mazda_tab.dataframe(mazda)
 
 
+st.markdown(
+    f""" #### 專案目標:
+    - 鎖定Kicks及Sentra兩車型，透過爬蟲收集外部輿情等標籤，分析國內市場動態與有望客之關聯性，了解目標消費者當前討論之熱門議題與興趣輪廓，擬定行銷策略，並藉由市場反應進行策略優化。
+    """, unsafe_allow_html=True)
+
 
 # 內部資料
-st.header("內部資料")
+st.markdown("#### 內部資料")
 # 讀取內部資料
 internal = load_data("big-data-class-2023/rawData/nissan_internal.csv")
 st.dataframe(internal)
+
 # # 顯示外部資料
+st.markdown(
+    f""" #### 外部資料:
+    - 資料取得方式 : PTT 爬蟲
+    - 資料來源 : 汽車版、汽車買賣版
+    - 資料區間：2020/12/01 ~ 2023/01/31
+
+    `資料清理之定義為清除有空值的資料`
+
+    | 廠牌 | 爬蟲關鍵字 | 資料總筆數 | 清理後筆數 |
+    | --- | --- | --- | --- |
+    | Nissan | Nissan、裕隆、裕日,日產、Sentra、Kicks、仙草 | 2,464 | 2,079 |
+    | Toyota | Toyota、Altis、Cross、豐田、和泰、阿提斯、卡羅拉 | 8,755 | 7,420 |
+    | Ford | 福特、六和、九和、上正、ford、Focus | 4,684 | 4,011 |
+    | Honda | honda、HRV、本田 | 2,488 | 2,171 |
+    | Mazda | mazda、CX-3、CX-30、馬三、mazda 3 | 3,321 | 2,787 |
+    """, unsafe_allow_html=True)
 # show_ptt_data()

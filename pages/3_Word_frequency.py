@@ -14,7 +14,7 @@ from ast import literal_eval
 from st_files_connection import FilesConnection
 
 # 預設顯示 wide mode
-st.set_page_config(layout="wide")
+st.set_page_config(page_title="詞頻分析", layout="wide", page_icon="📈")
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 # 設定資料連結
@@ -39,6 +39,9 @@ mazda['brand'] = "Mazda"
 
 df_interact = pd.concat([nissan, toyota, ford, honda, mazda])
 
+df_interact['updown'] = '中立'
+df_interact.loc[(df_interact['sentimentRatio'] >= 0.6), 'updown'] = '正向'
+df_interact.loc[(df_interact['sentimentRatio'] <= 0.4), 'updown'] = '負向'
 
 # df_interact = load_df(url1, url2, url3, url4, url5)
 
@@ -48,21 +51,36 @@ df_interact['artDate'] = pd.to_datetime(df_interact['artDate'],format='%Y-%m-%d'
 # Set header title
 # st.title('時間區間品牌網路詞頻計算')
 # title
-st.title("詞頻分析/文字雲")
-st.markdown('文字雲')
+st.title("詞頻分析")
+st.markdown(
+    f""" #### 詞頻分析說明:
+    - 左側選單可篩選條件（廠牌、關鍵字、時間區間）
+    - 左側選單下方斷詞篩選，可透過選擇詞頻前20的斷詞，再次將有該斷詞的圖表生成
+    - 生成文字雲、詞頻長條圖、篩選後資料表
+    """, unsafe_allow_html=True)
+st.markdown('#### 文字雲')
 
 # Define list of selection options and sort alphabetically
 brand_list = ['Nissan', 'Toyota', 'Ford', 'Honda', 'Mazda']
 brand_list.sort()
 
+car_list = ['全部車系', 'Kicks', 'Sentra']
+
+updown_list = ['中立', '正向', '負向']
+
 # Implement multiselect dropdown menu for option selection (returns a list)
-st.sidebar.title('選擇品牌')
+st.sidebar.subheader('參數調整')
 selected_brands = st.sidebar.multiselect('選擇品牌', brand_list, default=['Nissan'])
+
+selected_updown = st.sidebar.multiselect('選擇情緒', updown_list, default=updown_list)
+
+word = st.sidebar.text_input("請輸入關鍵字:")
+
 
 # st.sidebar.divider()  # 分隔線
 
 # 選擇月份
-st.sidebar.title('選擇月份區間')
+# st.sidebar.title('選擇月份區間')
 st.sidebar.caption('有效月份範圍：2020-12 - 2023-01')
 
 # 取得所有的月份選項
@@ -90,11 +108,22 @@ selected_ending_date = pd.to_datetime(selected_ending_month, format='%Y-%m')
 # 防呆機制：結束月份不能選擇比起始月份還前面的日期
 if selected_ending_date < selected_beginning_date:
     st.sidebar.error("結束月份不能早於起始月份")
-
-# Filter the dataframe based on selected brands and dates
-df_select = df_interact.loc[(df_interact['brand'].isin(list(selected_brands))) &
-                            (df_interact['artDate'].dt.to_period('M') >= selected_beginning_date.to_period('M')) &
-                            (df_interact['artDate'].dt.to_period('M') <= selected_ending_date.to_period('M'))]
+if word == '':
+    # Filter the dataframe based on selected brands and dates
+    df_select = df_interact.loc[(df_interact['updown'].isin(list(selected_updown))) &
+                                (df_interact['brand'].isin(list(selected_brands))) &
+                                (df_interact['artDate'].dt.to_period('M') >= selected_beginning_date.to_period('M')) &
+                                (df_interact['artDate'].dt.to_period('M') <= selected_ending_date.to_period('M'))]
+    
+else:
+    # Filter the dataframe based on selected brands and dates
+    df_select = df_interact.loc[(df_interact['updown'].isin(list(selected_updown))) &
+                                (df_interact['words'].str.contains(word)) &
+                                (df_interact['brand'].isin(list(selected_brands))) &
+                                (df_interact['artDate'].dt.to_period('M') >= selected_beginning_date.to_period('M')) &
+                                (df_interact['artDate'].dt.to_period('M') <= selected_ending_date.to_period('M'))]
+        
+    
 if df_select.empty:
     st.markdown(":red[篩選後資料表為空值，請重新篩選動作]")
 
@@ -123,9 +152,9 @@ else:
 
     # 選擇要篩選含有哪個詞的文章
     default_index = voc.index("未選擇")
-    st.sidebar.divider()
-    st.sidebar.title('斷詞篩選')
-    select_voc = st.sidebar.selectbox('選擇斷詞', voc, index=default_index)
+    # st.sidebar.divider()
+    # st.sidebar.subheader('斷詞篩選')
+    select_voc = st.sidebar.selectbox('進階篩選 (詞頻前20)', voc, index=default_index)
 
     if select_voc == '未選擇':
 
@@ -151,7 +180,7 @@ else:
         )
         st.plotly_chart(fig, use_container_width = True)
 
-        st.markdown('資料表')
+        st.markdown('**資料表**')
 
         st.dataframe(
             df_select[["artTitle", "artDate", "artCatagory", "artContent"]],
@@ -195,25 +224,25 @@ else:
 
             # 文字雲
             FontPath = 'data/font/SourceHanSansTW-Regular.otf' # 設定字型
-            wordcloud = WordCloud(background_color='white', font_path=FontPath, max_words=200)
+            wordcloud = WordCloud(background_color='white', width=800, height = 400, font_path=FontPath, max_words=200)
             wordcloud.generate_from_frequencies(freq_dict)
             plt.figure(figsize = (14,7))
             plt.imshow(wordcloud)
             plt.axis('off')
             plt.show()
-            st.pyplot(use_container_width = True)
+            st.pyplot()
 
             # 詞頻長條圖
             fig = px.bar(freq_df_3.iloc[:20], x='word', y='freq')
+            st.markdown('#### 詞頻長條圖')
             fig.update_layout(
                 # yaxis = list(autorange = "reversed"),
                 xaxis_title="斷詞",
                 yaxis_title="數量",
-                title="詞頻長條圖"
             )
             st.plotly_chart(fig, use_container_width = True)
 
-            st.markdown('資料表')
+            st.markdown('#### 資料表')
 
             st.dataframe(
                 df_select2[["artTitle", "artDate", "artCatagory", "artContent"]],
